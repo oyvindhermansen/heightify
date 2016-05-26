@@ -13,8 +13,5 @@ export const heightify = (element) => {
     largest = Math.max.apply(Math, storedHeights)
     el[i].style.height = `${largest}px`
   }
-  console.log(largest)
  return parseInt(largest)
 }
-
-heightify('div')
