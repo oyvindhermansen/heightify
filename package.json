@@ -6,7 +6,7 @@
   "scripts": {
     "build": "gulp compile --production",
     "dev": "gulp",
-    "test": "mocha tests/index.test.js --compilers js:babel-core/register"
+    "test": "mocha tests/index.test.js --compilers js:babel-core/register --require tests/testhelper.js tests/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
+    "jsdom": "^9.2.0",
     "mocha": "^2.4.5",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

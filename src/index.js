@@ -1,7 +1,20 @@
 'use strict'
 
-export default {
-  yourFunctionName: () => {
-    console.log('best function ever')
+import { warning } from './util/warning'
+
+export const heightify = (element) => {
+  if (!element) return warning('You need to set an element')
+  const el = document.querySelectorAll(element)
+  const storedHeights = []
+  let largest
+
+  for (let i = 0; i < el.length; i++) {
+    storedHeights.push(el[i].clientHeight)
+    largest = Math.max.apply(Math, storedHeights)
+    el[i].style.height = `${largest}px`
   }
+  console.log(largest)
+ return parseInt(largest)
 }
+
+heightify('div')
