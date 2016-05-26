@@ -2,3 +2,4 @@ node_modules
 .git
 *.log
 *.html
+lib/index.build.js
