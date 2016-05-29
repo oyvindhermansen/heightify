@@ -3,7 +3,7 @@
 import { warning } from './util/warning'
 
 export const heightify = (element) => {
-  if (!element) return warning('You need to set an element')
+  if (!element) throw new Error('You need to set an element')
   const el = document.querySelectorAll(element)
   const storedHeights = []
   let largest
@@ -13,5 +13,4 @@ export const heightify = (element) => {
     largest = Math.max.apply(Math, storedHeights)
     el[i].style.height = `${largest}px`
   }
- return parseInt(largest)
 }
