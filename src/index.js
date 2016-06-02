@@ -1,6 +1,6 @@
 'use strict'
 
-export const heightify = (element) => {
+export default function heightify(element) {
   if (!element) throw new Error('You need to set an element')
   const el = document.querySelectorAll(element)
   const storedHeights = []
@@ -10,10 +10,10 @@ export const heightify = (element) => {
     storedHeights.push(el[i].clientHeight)
   }
 
-  largest = Math.max.apply(Math, storedHeights)
+  storedHeights.map((number, index) => {
+    largest = Math.max.apply(Math, storedHeights)
+    el[index].style.height = `${largest}px`
+  })
 
-  for (let j = 0; j < el.length; j++) {
-    el[j].style.height = `${largest}px`
-  }
   return largest
 }
