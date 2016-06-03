@@ -1,21 +1,24 @@
 import { expect } from 'chai'
+import jsdom from 'mocha-jsdom'
 import heightify from '../src/index'
 
 /* tests are comming */
 
 describe('Heightify', () => {
+/*
+  jsdom()
+
   it('should return largest number in array', () => {
-    /*
-    const div = document.createElement('div')
-    const t = document.createTextNode('hello')
-    div.appendChild(t)
-    document.body.appendChild(div)
-    //div.style.height = '100px'
+    const text = ['lol', 'wdwe', 'w', 'woedkw dikweodi wkdik eidokweodi kwdiokw doik']
+    let divs
 
-    const h = heightify(div)
-    console.log(h)
+    for (let i = 0; i < text.length; i++) {
+      divs = document.createElement('div')
+      divs.style.width = '50px'
+    }
 
-    //expect(h).to.equal(200)
-    */
+    heightify('div')
+    expect(divs.style.height).to.equal(500) // THIS IS FUCKING RETURNING: ''
   })
+  */
 })
