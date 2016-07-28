@@ -1,6 +1,6 @@
 # heightify
 
-A module for setting the same height on given element.
+A module for setting the same heights on given element.
 
 ## Install
 ```
@@ -17,9 +17,13 @@ Production:
 
 ## Usage
 ```javascript
-import heightify from 'heightify'
+import { heightify } from 'heightify'
 
-// sets all divs to the same height as the tallest
-// div on the page
-heightify('div')
+// sets all divs to the same height as the tallest div on the page
+heightify({
+  element: 'div',
+  hasImages: true // Default is false
+})
 ```
+If `hasImages` is set to `true`, it will use `imagesLoaded` before applying
+the height.
