@@ -1,6 +1,6 @@
 {
   "name": "heightify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A module for setting the same height on given element",
   "main": "lib/index.build.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/oyvindhermansen/heightify.git"
   },
   "author": "Øyvind Hermansen <oyvind@ludensreklame.no>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/oyvindhermansen/heightify/issues"
   },
