@@ -1,24 +1,20 @@
-import { expect } from 'chai'
-import jsdom from 'mocha-jsdom'
-import heightify from '../src/index'
-
-/* tests are comming */
+import { expect, assert } from 'chai'
+import { heightify } from '../src/index'
 
 describe('Heightify', () => {
 /*
-  jsdom()
+  it('Throw when element is not defined', () => {
 
-  it('should return largest number in array', () => {
-    const text = ['lol', 'wdwe', 'w', 'woedkw dikweodi wkdik eidokweodi kwdiokw doik']
-    let divs
+    const heightifyWithoutDOMElement = heightify({})
+    expect(heightifyWithoutDOMElement).to.throw('Heightify requires a DOM node to match the height with.')
 
-    for (let i = 0; i < text.length; i++) {
-      divs = document.createElement('div')
-      divs.style.width = '50px'
-    }
-
-    heightify('div')
-    expect(divs.style.height).to.equal(500) // THIS IS FUCKING RETURNING: ''
   })
-  */
+*/
+  it('should be ok if element is defined', () => {
+    const heightifyWithDOMElement = heightify({
+      element: 'div'
+    })
+    assert.isOk(heightifyWithDOMElement, 'OK' )
+  })
+
 })

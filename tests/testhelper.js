@@ -1,5 +1,5 @@
 import { jsdom } from 'jsdom'
-/*
+
 const doc = jsdom('<!doctype html><html><body></body></html>')
 const win = doc.defaultView
 
@@ -11,4 +11,3 @@ Object.keys(window).forEach((key) => {
     global[key] = window[key]
   }
 })
-*/
