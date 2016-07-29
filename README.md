@@ -2,18 +2,13 @@
 
 A module for setting the same heights on given element.
 
+https://travis-ci.org/oyvindhermansen/heightify.svg?branch=master
+
 ## Install
 ```
 $ git clone https://github.com/oyvindhermansen/heightify.git
 $ npm install
 ```
-## Running
-
-Locally:
-`npm run dev` or `gulp`
-
-Production:
-`npm run build`
 
 ## Usage
 ```javascript
@@ -27,3 +22,11 @@ heightify({
 ```
 If `hasImages` is set to `true`, it will use `imagesLoaded` before applying
 the height.
+
+## Development
+
+Locally:
+`npm run dev` or `gulp`
+
+Production:
+`npm run build`
