@@ -1,6 +1,6 @@
 {
   "name": "heightify",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A module for setting the same height on given element",
   "main": "lib/index.build.js",
   "scripts": {
