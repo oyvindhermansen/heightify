@@ -30,3 +30,7 @@ Locally:
 
 Production:
 `npm run build`
+
+## Tests
+* `npm test`
+* `npm run dev-test` - flagged with --watching
