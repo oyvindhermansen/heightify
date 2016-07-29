@@ -2,9 +2,12 @@
 import imagesLoaded from 'imagesloaded'
 import isPlainObject from 'lodash/isPlainObject'
 
+/**
+  @param {object} opts - The settings for heightify
+*/
+
 class Heightify {
   constructor(opts) {
-
     this.opts = ({
       element: null,
       hasImages: false,
@@ -13,7 +16,8 @@ class Heightify {
     this.el = document.querySelectorAll(this.opts.element)
     this.storedHeights = []
 
-    this.throwError(opts.element, opts)
+    this.checkOpts(opts)
+    this.checkElement(this.opts.element)
     this.init()
   }
 
@@ -25,13 +29,21 @@ class Heightify {
     }
   }
 
-  throwError(element, opts) {
+  checkOpts(opts) {
     if (!isPlainObject(opts)) {
       throw new Error(`Expected '${opts}' to be an object.`)
-    } else if (!element) {
+    } else {
+      return opts
+    }
+  }
+
+  checkElement(element) {
+    if (!element) {
       throw new Error(`Heightify requires a DOM node to match the height with.`)
     } else if (typeof element !== 'string') {
       throw new Error(`'${element}' should be a type of string.`)
+    } else {
+      return element
     }
   }
 
