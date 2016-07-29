@@ -2,7 +2,7 @@
 
 A module for setting the same heights on given element.
 
-https://travis-ci.org/oyvindhermansen/heightify.svg?branch=master
+[![Build Status](https://travis-ci.org/oyvindhermansen/heightify.svg?branch=develop)](https://travis-ci.org/oyvindhermansen/heightify)
 
 ## Install
 ```
