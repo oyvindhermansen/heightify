@@ -32,8 +32,6 @@ class Heightify {
   checkOpts(opts) {
     if (!isPlainObject(opts)) {
       throw new Error(`Expected '${opts}' to be an object.`)
-    } else {
-      return opts
     }
   }
 
