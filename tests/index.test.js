@@ -1,4 +1,4 @@
-import { expect, assert, should } from 'chai'
+import { expect, assert } from 'chai'
 import { heightify } from '../src/index'
 
 describe('Heightify', () => {
