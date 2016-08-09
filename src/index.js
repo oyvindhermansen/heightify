@@ -1,6 +1,6 @@
 'use strict'
 import imagesLoaded from 'imagesloaded'
-import isPlainObject from 'lodash/isplainobject'
+import isPlainObject from 'lodash/isPlainObject'
 
 /**
   @param {object} opts - The settings for heightify
