@@ -8,5 +8,4 @@ node_js:
   - "6.0"
 
 before_script:
-  - npm install
-  - npm run build
+  - npm cache clear
