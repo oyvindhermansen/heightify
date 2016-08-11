@@ -6,4 +6,4 @@ node_js:
   - "6.0"
 
 before_script:
-  - npm cache cleartra
+  - npm cache clear
