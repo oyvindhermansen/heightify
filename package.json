@@ -1,6 +1,6 @@
 {
   "name": "heightify",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A module for setting the same height on given element",
   "main": "lib/index.build.js",
   "scripts": {
@@ -44,7 +44,6 @@
     "yargs": "^4.7.1"
   },
   "dependencies": {
-    "imagesloaded": "^4.1.0",
-    "lodash.isplainobject": "^4.0.5"
+    "imagesloaded": "^4.1.0"
   }
 }

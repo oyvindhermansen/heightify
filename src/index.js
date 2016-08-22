@@ -1,6 +1,5 @@
 'use strict'
 import imagesLoaded from 'imagesloaded'
-import isPlainObject from 'lodash/isPlainObject'
 
 /**
   @param {object} opts - The settings for heightify
@@ -30,7 +29,7 @@ class Heightify {
   }
 
   checkOpts(opts) {
-    if (!isPlainObject(opts)) {
+    if (typeof opts !== 'object') {
       throw new Error(`Expected '${opts}' to be an object.`)
     }
   }
