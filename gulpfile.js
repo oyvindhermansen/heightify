@@ -18,7 +18,7 @@ gulp.task('bundle', () => {
   const bundler = browserify({
     cache: {},
     packageCache: {},
-    entries: ['./src/index.js'],
+    entries: ['./src/heightify.js'],
     debug: dev
   })
 
@@ -40,7 +40,7 @@ gulp.task('bundle', () => {
       .pipe(source('./src/index.js'))
       .pipe(bufferifyify())
       .pipe(gulpif(!dev, uglify()))
-      .pipe(rename('index.build.js'))
+      .pipe(rename('heightify.build.js'))
       .pipe(gulp.dest('./lib/'))
       .pipe(gulpif(dev, livereload()))
   }
