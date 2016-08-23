@@ -1,24 +1,24 @@
-const gulp = require('gulp')
-const browserify = require('browserify')
-const babelify = require('babelify')
-const watchify = require('watchify')
-const source = require('vinyl-source-stream')
-const bufferifyify = require('vinyl-buffer')
-const rename = require('gulp-rename')
-const sourcemaps = require('gulp-sourcemaps')
-const argv = require('yargs').argv
-const livereload = require('gulp-livereload')
-const uglify = require('gulp-uglify')
-const gulpif = require('gulp-if')
-const gutil = require('gulp-util')
+import gulp from 'gulp'
+import browserify from 'browserify'
+import babelify from 'babelify'
+import watchify from 'watchify'
+import source from 'vinyl-source-stream'
+import bufferifyify from 'vinyl-buffer'
+import rename from 'gulp-rename'
+import sourcemaps from 'gulp-sourcemaps'
+import { argv } from 'yargs'
+import livereload from 'gulp-livereload'
+import uglify from 'gulp-uglify'
+import gulpif from 'gulp-if'
+import gutil from 'gulp-util'
 
 const dev = !argv.production ? true : false
 
 gulp.task('bundle', () => {
-  const bundler = browserify({
+  let bundler = browserify({
     cache: {},
     packageCache: {},
-    entries: ['./src/heightify.js'],
+    entries: ['./src/core/heightify.js'],
     debug: dev
   })
 
@@ -37,7 +37,7 @@ gulp.task('bundle', () => {
           err.toString()
         )
       })
-      .pipe(source('./src/index.js'))
+      .pipe(source('./src/core/heightify.js'))
       .pipe(bufferifyify())
       .pipe(gulpif(!dev, uglify()))
       .pipe(rename('heightify.build.js'))
@@ -50,7 +50,7 @@ gulp.task('bundle', () => {
 
 gulp.task('watch', () => {
   livereload.listen()
-  gulp.watch('./src/**/*.js', ['bundle'])
+  gulp.watch('./src/core/**/*.js', ['bundle'])
 })
 
 gulp.task('compile', ['bundle']);

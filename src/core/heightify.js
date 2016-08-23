@@ -1,5 +1,6 @@
 'use strict'
 import imagesLoaded from 'imagesloaded'
+import isObject from '../utils/isObject'
 
 /**
   @param {object} opts - The settings for heightify
@@ -16,7 +17,6 @@ class Heightify {
     this.storedHeights = []
 
     this.checkOpts(opts)
-    this.checkElement(this.opts.element)
     this.init()
   }
 
@@ -29,34 +29,27 @@ class Heightify {
   }
 
   checkOpts(opts) {
-    if (typeof opts !== 'object') {
+    if (!isObject(opts)) {
       throw new Error(`Expected '${opts}' to be an object.`)
+    } else if (!opts.hasOwnProperty('element')) {
+      throw new Error(`Heightify requires a DOM node to match the height with.`)
+    } else if (typeof opts.element !== 'string') {
+      throw new Error(`'${opts.element}' should be a type of string.`)
     }
   }
 
-  checkElement(element) {
-    if (!element) {
-      throw new Error(`Heightify requires a DOM node to match the height with.`)
-    } else if (typeof element !== 'string') {
-      throw new Error(`'${element}' should be a type of string.`)
-    } else {
-      return element
-    }
+  maxNumberInArray(arr) {
+    return Math.max.apply(Math, arr)
   }
 
   heightify() {
-    let largest
-
     for (let i = 0; i < this.el.length; i++) {
       this.storedHeights.push(this.el[i].clientHeight)
     }
 
-    this.storedHeights.map((number, index) => {
-      largest = Math.max.apply(Math, this.storedHeights)
-      this.el[index].style.height = `${largest}px`
+    return this.storedHeights.map((number, index) => {
+      this.el[index].style.height = `${this.maxNumberInArray(this.storedHeights)}px`
     })
-
-    return largest
   }
 
   hasImages() {

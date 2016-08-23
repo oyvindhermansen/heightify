@@ -24,13 +24,12 @@ If `hasImages` is set to `true`, it will use `imagesLoaded` before applying
 the height.
 
 ## Development
-
 Locally:
 `npm run dev` or `gulp`
 
-Production:
-`npm run build`
+Build:
+`npm run build` - Will create a `lib` folder with the transpiled code.
 
 ## Tests
 * `npm test`
-* `npm run dev-test` - flagged with --watching
+* `npm run dev-test` - watch on save
