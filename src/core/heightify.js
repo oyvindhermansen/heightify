@@ -1,6 +1,6 @@
 'use strict'
 import imagesLoaded from 'imagesloaded'
-import isObject from './utils/isObject'
+import isObject from '../utils/isObject'
 
 /**
   @param {object} opts - The settings for heightify

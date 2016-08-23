@@ -1,5 +1,5 @@
 import { expect, assert } from 'chai'
-import { heightify } from '../src/heightify'
+import { heightify } from '../src/core/heightify'
 
 describe('Heightify', () => {
   describe('error messages', () => {
