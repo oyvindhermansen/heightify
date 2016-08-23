@@ -60,4 +60,3 @@ class Heightify {
 }
 
 export const heightify = opts => new Heightify(opts)
-heightify({element: 'div'})
