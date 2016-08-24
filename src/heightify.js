@@ -1,18 +1,5 @@
-'use strict'
 import imagesLoaded from 'imagesloaded'
-
-/**
-  @param {object} obj - Check for isPlainObject
-  @return {obj} obj
-*/
-
-function isObject(obj) {
-  if (Array.isArray(obj)) {
-    throw new Error(`Expected a plain object`)
-  } else if (typeof obj === 'object') {
-    return obj
-  }
-}
+import isObject from './utils/isObject'
 
 /**
   @param {object} opts - The settings for heightify

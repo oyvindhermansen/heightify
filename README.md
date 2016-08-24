@@ -23,13 +23,13 @@ heightify({
 If `hasImages` is set to `true`, it will use `imagesLoaded` before applying
 the height.
 
-## Development
-Locally:
-`npm run dev` or `gulp`
+## Build:
+For the heightify package itself:
+`$ npm run build`
 
-Build:
-`npm run build`
+When testing the examples, run:
+`$ npm run examples`
 
 ## Tests
-* `npm test`
-* `npm run dev-test` - watch on save
+* `$ npm test`
+* `$ npm run test:watch`
