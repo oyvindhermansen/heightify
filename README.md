@@ -28,7 +28,7 @@ Locally:
 `npm run dev` or `gulp`
 
 Build:
-`npm run build` - Will create a `lib` folder with the transpiled code.
+`npm run build`
 
 ## Tests
 * `npm test`

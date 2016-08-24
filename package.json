@@ -4,10 +4,9 @@
   "description": "A module for setting the same height on given elements",
   "main": "lib/heightify.build.js",
   "scripts": {
-    "postinstall": "mkdir lib && npm run build",
     "dev-test": "mocha tests/heightify.test.js --compilers js:babel-core/register --require tests/testhelper.js tests/**/*.test.js --watch",
     "dev": "gulp",
-    "prebuild": "npm cache clear && rm -rf lib && mkdir lib",
+    "install": "npm run build",
     "build": "babel src/core/heightify.js -o lib/heightify.build.js",
     "postbuild": "gulp compile --production",
     "test": "mocha tests/heightify.test.js --compilers js:babel-core/register --require tests/testhelper.js tests/**/*.test.js"
