@@ -1,5 +1,3 @@
 var heightify = require('../lib/heightify').heightify
 
-heightify({
-  element: 'div'
-})
+heightify({element: 'div'})

@@ -1,9 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var heightify = require('../lib/heightify').heightify
 
-heightify({
-  element: 'div'
-})
+heightify({element: 'div'})
 
 },{"../lib/heightify":2}],2:[function(require,module,exports){
 'use strict';
@@ -12,6 +10,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.heightify = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -23,16 +23,29 @@ var _isObject = require('./utils/isObject');
 
 var _isObject2 = _interopRequireDefault(_isObject);
 
+var _initialError = require('./utils/initialError');
+
+var _initialError2 = _interopRequireDefault(_initialError);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
-  @param {object} opts - The settings for heightify
+* Heightify - the function you run when you want to give
+* the specified DOM-element the same heights as the tallest
+* element defined.
+* @param {object} opts - Specify which element you would
+* like to set equally heights on with the key: `element`.
+* @return {object} opts - The object with the options specified.
 */
 
 var Heightify = function () {
-  function Heightify(opts) {
+  function Heightify() {
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? (0, _initialError2.default)() : arguments[0];
+
     _classCallCheck(this, Heightify);
 
     this.opts = ({
@@ -43,7 +56,7 @@ var Heightify = function () {
     this.el = document.querySelectorAll(this.opts.element);
     this.storedHeights = [];
 
-    this.checkOpts(opts);
+    this.handleErrorMessages(opts);
     this.init();
   }
 
@@ -57,20 +70,27 @@ var Heightify = function () {
       }
     }
   }, {
-    key: 'checkOpts',
-    value: function checkOpts(opts) {
+    key: 'handleErrorMessages',
+    value: function handleErrorMessages(opts) {
+      var optsType = typeof opts === 'undefined' ? 'undefined' : _typeof(opts);
+      var elementType = _typeof(opts.element);
+
       if (!(0, _isObject2.default)(opts)) {
         throw new Error('Expected \'' + opts + '\' to be an object.');
-      } else if (!opts.hasOwnProperty('element')) {
-        throw new Error('Heightify requires a DOM node to match the height with.');
-      } else if (typeof opts.element !== 'string') {
+      }
+
+      if (!opts.hasOwnProperty('element')) {
+        throw new Error('Heightify requires a DOM node to match the height with. ' + 'Please specify with the object key: \'element\'.');
+      }
+
+      if (elementType !== 'string') {
         throw new Error('\'' + opts.element + '\' should be a type of string.');
       }
     }
   }, {
     key: 'maxNumberInArray',
     value: function maxNumberInArray(arr) {
-      return Math.max.apply(Math, arr);
+      return Math.max.apply(Math, _toConsumableArray(arr));
     }
   }, {
     key: 'heightify',
@@ -102,7 +122,23 @@ var Heightify = function () {
 var heightify = exports.heightify = function heightify(opts) {
   return new Heightify(opts);
 };
-},{"./utils/isObject":3,"imagesloaded":5}],3:[function(require,module,exports){
+},{"./utils/initialError":3,"./utils/isObject":4,"imagesloaded":6}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = initialError;
+/**
+* @return {void} - Just a function for setting initial error on
+* the argument provided for heightify.
+*
+*/
+
+function initialError() {
+  throw new Error("Expected an object as an argument");
+}
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -111,20 +147,20 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
+exports.default = isObject;
 /**
-  @param {object} obj - Check for isPlainObject
-  @return {object} obj
+* @param {object} obj - Check for isPlainObject
+* @return {boolean}
 */
 
 function isObject(obj) {
-  if (Array.isArray(obj) || (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') {
-    throw new Error('Expected a plain object');
+  var objType = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
+  if (!Array.isArray(obj) && objType === 'object') {
+    return true;
   }
-  return obj;
+  return false;
 }
-
-exports.default = isObject;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter
@@ -235,7 +271,7 @@ return EvEmitter;
 
 }));
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*!
  * imagesLoaded v4.1.0
  * JavaScript is all like "You images are done yet or what?"
@@ -607,4 +643,4 @@ return ImagesLoaded;
 
 });
 
-},{"ev-emitter":4}]},{},[1]);
+},{"ev-emitter":5}]},{},[1]);
