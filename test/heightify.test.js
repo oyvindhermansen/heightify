@@ -2,7 +2,9 @@ import { expect, assert } from 'chai'
 import { heightify } from '../src/heightify'
 
 describe('Heightify', () => {
+
   describe('error messages', () => {
+
     it('should be ok if element is defined', () => {
       const heightifyWithDOMElement = heightify({
         element: 'div'
@@ -28,4 +30,14 @@ describe('Heightify', () => {
       }).to.throw('\'div\' should be a type of string.')
     })
   })
+
+  describe('Main functionality', () => {
+
+    it('should find the tallest number in array', () => {
+      const h = heightify({element: 'div', hasImages: true})
+      const fakeArray = [100, 400, 1000, 2, 5, 200, 232]
+      expect(h.maxNumberInArray(fakeArray)).to.equal(1000)
+    })
+  })
+
 })

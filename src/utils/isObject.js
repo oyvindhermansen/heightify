@@ -1,13 +1,12 @@
 /**
-  @param {object} obj - Check for isPlainObject
-  @return {object} obj
+* @param {object} obj - Check for isPlainObject
+* @return {boolean}
 */
 
-function isObject(obj) {
-  if (Array.isArray(obj) || typeof obj !== 'object') {
-    throw new Error('Expected a plain object')
+export default function isObject(obj) {
+  var objType = typeof obj
+  if (!Array.isArray(obj) && objType === 'object' ) {
+    return true
   }
-  return obj
+  return false
 }
-
-export default isObject
