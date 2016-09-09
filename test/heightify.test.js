@@ -15,7 +15,7 @@ describe('Heightify', () => {
     it('should throw if argument is not an object', () => {
       expect(() => {
         heightify('some options')
-      }).to.throw('Expected a plain object')
+      }).to.throw('Expected \'some options\' to be an object.')
     })
 
     it('should throw when element is not defined', () => {
