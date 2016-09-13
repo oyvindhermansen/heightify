@@ -20,6 +20,16 @@ heightify({
   hasImages: true // Default is false
 })
 ```
+or if you would like to specify multiple elements, just define
+the element key with an array of elements.
+```javascript
+heightify({
+  element: [
+    '.someClass',
+    '.someOtherClass'
+  ],
+})
+```
 If `hasImages` is set to `true`, it will use `imagesLoaded` before applying
 the height.
 
