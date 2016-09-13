@@ -1,7 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var heightify = require('../lib/heightify').heightify
 
-heightify({element: 'div'})
+heightify({element: [
+  '.lol',
+  '.test'
+]})
 
 },{"../lib/heightify":2}],2:[function(require,module,exports){
 'use strict';
@@ -10,8 +13,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.heightify = undefined;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -72,19 +73,12 @@ var Heightify = function () {
   }, {
     key: 'handleErrorMessages',
     value: function handleErrorMessages(opts) {
-      var optsType = typeof opts === 'undefined' ? 'undefined' : _typeof(opts);
-      var elementType = _typeof(opts.element);
-
       if (!(0, _isObject2.default)(opts)) {
         throw new Error('Expected \'' + opts + '\' to be an object.');
       }
 
       if (!opts.hasOwnProperty('element')) {
-        throw new Error('Heightify requires a DOM node to match the height with. ' + 'Please specify with the object key: \'element\'.');
-      }
-
-      if (elementType !== 'string') {
-        throw new Error('\'' + opts.element + '\' should be a type of string.');
+        throw new Error('Heightify requires a DOM node ' + 'to match the height with. ' + 'Please specify with the ' + 'object key: \'element\'.');
       }
     }
   }, {
