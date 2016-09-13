@@ -4,7 +4,6 @@ import isObject from '../src/utils/isObject'
 import initialError from '../src/utils/initialError'
 
 describe('Heightify', () => {
-
   describe('Utils', () => {
     describe('isObject', () => {
       it('should return true if object is passed, and false otherwise', () => {
