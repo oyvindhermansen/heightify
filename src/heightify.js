@@ -34,25 +34,17 @@ class Heightify {
   }
 
   handleErrorMessages(opts) {
-    const optsType = typeof opts
-    const elementType = typeof opts.element
-
     if (!isObject(opts)) {
       throw new Error(`Expected '${opts}' to be an object.`)
     }
 
     if (!opts.hasOwnProperty('element')) {
       throw new Error(
-        `Heightify requires a DOM node to match the height with. ` +
-        `Please specify with the object key: 'element'.`
+        `Heightify requires a DOM node ` +
+        `to match the height with. ` +
+        `Please specify with the ` +
+        `object key: 'element'.`
       )
-    }
-    /**
-    * This will normally not happen, because of the document querySelector will
-    * throw if it can't match the input with a DOM-element.
-    */
-    if (elementType !== 'string') {
-      throw new Error(`'${opts.element}' should be a type of string.`)
     }
   }
 
