@@ -1,7 +1,22 @@
-//import imagesLoaded from 'imagesloaded'
+import imagesLoaded from 'imagesloaded'
+
+function containsImages(element, callback) {
+  return imagesLoaded(element, (instance) => {
+    if (instance.complete) {
+      if (callback && typeof callback === 'function') {
+        return callback()
+      }
+    }
+  })
+}
 
 /**
- SOME DESCRIPTION (helper)
+* @param {any} elements The elements you specify when
+* running heightify().
+* This function loops the current specified DOM elements
+* and pushes the clientHeight into an array.
+* @returns {Array} storedHeights The array which holds
+* the heights of the DOM nodes.
 */
 function saveHeights(elements) {
   const storedHeights = []
@@ -11,29 +26,19 @@ function saveHeights(elements) {
   return storedHeights
 }
 
-/**
- SOME DESCRIPTION (helper)
-*/
 function findHeighestInArray(arr) {
   return Math.max(...arr)
 }
 
-/**
- SOME DESCRIPTION (helper)
-*/
 function allHeights(listOfHeights) {
   return saveHeights(listOfHeights).map(item => item)
 }
 
-/**
- SOME DESCRIPTION (helper)
-*/
 function applyHeightsToElements(elements, tallestNum) {
   return elements.map((item, index) => {
     return elements[index].style.height = `${tallestNum}px`
   })
 }
-
 
 /**
 * Heightify - the function you run when you want to give
@@ -66,13 +71,23 @@ function heightify(element, hasImages) {
       )
     } else {
       /**
-      * TODO this is currently working as if there are no images.
-      * Need to handle this with imagesloaded or something.
+      * TODO This is bugging, and text is not collapsing.
+      * Need to handle this properly with imagesloaded.
       */
-      applyHeightsToElements(elementsToArray, tallestElement)
+      containsImages(
+        element,
+        () => {
+          applyHeightsToElements(
+            elementsToArray,
+            tallestElement
+          )
+        }
+      )
     }
   } else {
-    // no images
+    /**
+    * No images found. Run this the normal way.
+    */
     applyHeightsToElements(elementsToArray, tallestElement)
   }
 
