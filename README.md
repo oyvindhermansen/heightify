@@ -12,26 +12,25 @@ $ npm install
 
 ## Usage
 ```javascript
-import { heightify } from 'heightify'
+import heightify from 'heightify'
 
-// sets all divs to the same height as the tallest div on the page
-heightify({
-  element: 'div',
-  hasImages: true // Default is false
-})
+/**
+* Sets all divs to the same height as the tallest div on the page
+*/
+
+heightify('div')
+
+/**
+* You can also pass a second argument: true/false.
+* this will check wether your element contain images.
+* If true, the heightify will run through imagesLoaded
+* before setting the height. This will fix bug with a
+* non-collapsing image.
+*/
+
+heightify('div', true)
+
 ```
-or if you would like to specify multiple elements, just define
-the element key with an array of elements.
-```javascript
-heightify({
-  element: [
-    '.someClass',
-    '.someOtherClass'
-  ],
-})
-```
-If `hasImages` is set to `true`, it will use `imagesLoaded` before applying
-the height.
 
 ## Build:
 For the heightify package itself:
