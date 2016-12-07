@@ -18,7 +18,7 @@ var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /* @flow */
 
 function findHeighestInArray(arr) {
   return Math.max.apply(Math, _toConsumableArray(arr));
@@ -40,7 +40,6 @@ function allHeights(listOfHeights) {
 
 function containsImages(element, callback) {
   return (0, _imagesloaded2.default)(element, function (instance) {
-    console.log(instance);
     if (instance.images.length === 0) {
       throw new Error('It seems like you are setting images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off images option or make sure your ' + 'images are loading correctly.');
     }
@@ -99,7 +98,7 @@ function heightify(element, hasImages) {
 
   if (hasImages) {
     if (typeof hasImages !== 'boolean') {
-      throw new Error('The option of \'hasImages\' ' + 'is either true or false - and not ' + ('\'' + (typeof hasImages === 'undefined' ? 'undefined' : _typeof(hasImages)) + '\''));
+      throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + (typeof hasImages === 'undefined' ? 'undefined' : _typeof(hasImages)) + '\''));
     } else {
       containsImages(element, function () {
         applyHeightsToElements(elementsToArray, tallestElement);
