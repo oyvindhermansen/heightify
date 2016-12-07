@@ -8,6 +8,16 @@ function allHeights(listOfHeights) {
   return saveHeights(listOfHeights).map(item => item)
 }
 
+
+function isObject(obj) {
+  var objType = typeof obj
+  if (!Array.isArray(obj) && objType === 'object' ) {
+    return true
+  }
+  return false
+}
+
+
 /**
 * @param {any} element
 * @param {Function} callback
@@ -19,10 +29,10 @@ function allHeights(listOfHeights) {
 function containsImages(element, callback) {
   return imagesLoaded(element, (instance) => {
     if (instance.images.length === 0) {
-      throw new Error(
-        `It seems like you are setting images option ` +
+      console.warn(
+        `It seems like you are setting the images option ` +
         `to true, when imagesLoaded cannot find any images. ` +
-        `Consider turning off images option or make sure your ` +
+        `Consider turning off the 'hasImages' option or make sure your ` +
         `images are loading correctly.`
       )
     }
@@ -73,12 +83,25 @@ function applyHeightsToElements(elements, tallestNum) {
 * @returns {Object} options with the values specified.
 */
 
-function heightify(element, hasImages) {
-  const elements = document.querySelectorAll(element)
+function heightify(opts = {}) {
+  // needs check for plain Object
+  opts = ({
+    element: null,
+    hasImages: false
+  }, opts)
+
+  const elements = document.querySelectorAll(opts.element)
   const elementsToArray = [...elements]
   const tallestElement = findHeighestInArray(allHeights(elementsToArray))
 
-  if (!element) {
+  if (!isObject(opts)) {
+    throw new Error(
+      `Argument specified for heightify is not a ${typeof opts}. ` +
+      `Please use object with the keys 'element' and 'hasImages'.`
+    )
+  }
+
+  if (!opts.element) {
     throw new Error(
       `You need to specify a DOM element ` +
       `as a first argument to apply the height ` +
@@ -86,16 +109,16 @@ function heightify(element, hasImages) {
     )
   }
 
-  if (hasImages) {
-    if (typeof hasImages !== 'boolean') {
+  if (opts.hasImages) {
+    if (typeof opts.hasImages !== 'boolean') {
       throw new Error(
         `The option of 'images' ` +
         `is either true or false - and not ` +
-        `'${typeof hasImages}'`
+        `'${typeof opts.hasImages}'`
       )
     } else {
       containsImages(
-        element,
+        opts.element,
         () => {
           applyHeightsToElements(
             elementsToArray,
@@ -105,16 +128,11 @@ function heightify(element, hasImages) {
       )
     }
   } else {
-    /**
-    * No images found. Run this the normal way.
-    */
+    // No images found. Run this the normal way.
     applyHeightsToElements(elementsToArray, tallestElement)
   }
 
-  return {
-    element,
-    hasImages
-  }
+  return opts
 }
 
 

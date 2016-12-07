@@ -1,7 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var heightify = require('../lib/heightify').default
-heightify('.lol', true)
-heightify('.test')
+
+heightify({
+  element: '.lol',
+  hasImages: true
+})
 
 },{"../lib/heightify":2}],2:[function(require,module,exports){
 'use strict';
@@ -18,7 +21,7 @@ var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /* @flow */
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function findHeighestInArray(arr) {
   return Math.max.apply(Math, _toConsumableArray(arr));
@@ -28,6 +31,14 @@ function allHeights(listOfHeights) {
   return saveHeights(listOfHeights).map(function (item) {
     return item;
   });
+}
+
+function isObject(obj) {
+  var objType = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
+  if (!Array.isArray(obj) && objType === 'object') {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -41,7 +52,7 @@ function allHeights(listOfHeights) {
 function containsImages(element, callback) {
   return (0, _imagesloaded2.default)(element, function (instance) {
     if (instance.images.length === 0) {
-      throw new Error('It seems like you are setting images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off images option or make sure your ' + 'images are loading correctly.');
+      console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or make sure your ' + 'images are loading correctly.');
     }
 
     if (instance.isComplete) {
@@ -83,39 +94,90 @@ function applyHeightsToElements(elements, tallestNum) {
 * the specified DOM-element the same heights as the tallest
 * element defined.
 * @param {any} element DOM node to apply the heights on
-* @param {Boolean}
+* @param {Boolean} hasImages
 * @returns {Object} options with the values specified.
 */
 
-function heightify(element, hasImages) {
-  var elements = document.querySelectorAll(element);
+function heightify() {
+  var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  // needs check for plain Object
+  opts = ({
+    element: null,
+    hasImages: false
+  }, opts);
+
+  var elements = document.querySelectorAll(opts.element);
   var elementsToArray = [].concat(_toConsumableArray(elements));
   var tallestElement = findHeighestInArray(allHeights(elementsToArray));
 
-  if (!element) {
+  if (!isObject(opts)) {
+    throw new Error('Argument specified for heightify is not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. ' + 'Please use object with the keys \'element\' and \'hasImages\'.');
+  }
+
+  if (!opts.element) {
     throw new Error('You need to specify a DOM element ' + 'as a first argument to apply the height ' + 'with.');
   }
 
-  if (hasImages) {
-    if (typeof hasImages !== 'boolean') {
-      throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + (typeof hasImages === 'undefined' ? 'undefined' : _typeof(hasImages)) + '\''));
+  if (opts.hasImages) {
+    if (typeof opts.hasImages !== 'boolean') {
+      throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + _typeof(opts.hasImages) + '\''));
     } else {
-      containsImages(element, function () {
+      containsImages(opts.element, function () {
         applyHeightsToElements(elementsToArray, tallestElement);
       });
     }
   } else {
-    /**
-    * No images found. Run this the normal way.
-    */
+    // No images found. Run this the normal way.
     applyHeightsToElements(elementsToArray, tallestElement);
   }
 
-  return {
-    element: element,
-    hasImages: hasImages
-  };
+  return opts;
 }
+
+/*
+function heightify(element, hasImages) {
+  const elements = document.querySelectorAll(element)
+  const elementsToArray = [...elements]
+  const tallestElement = findHeighestInArray(allHeights(elementsToArray))
+
+  if (!element) {
+    throw new Error(
+      `You need to specify a DOM element ` +
+      `as a first argument to apply the height ` +
+      `with.`
+    )
+  }
+
+  if (hasImages) {
+    if (typeof hasImages !== 'boolean') {
+      throw new Error(
+        `The option of 'images' ` +
+        `is either true or false - and not ` +
+        `'${typeof hasImages}'`
+      )
+    } else {
+      containsImages(
+        element,
+        () => {
+          applyHeightsToElements(
+            elementsToArray,
+            tallestElement
+          )
+        }
+      )
+    }
+  } else {
+    // No images found. Run this the normal way.
+    applyHeightsToElements(elementsToArray, tallestElement)
+  }
+
+  return {
+    element,
+    hasImages
+  }
+}
+*/
 
 exports.default = heightify;
 },{"imagesloaded":4}],3:[function(require,module,exports){

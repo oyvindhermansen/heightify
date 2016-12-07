@@ -4,8 +4,8 @@ import { findHeighestInArray, allHeights } from '../src/heightify'
 
 describe('Heightify', () => {
   it('should be ok', () => {
-    assert.isOk(heightify('div'), 'OK' )
-    expect(heightify('div')).to.be.an('object')
+    assert.isOk(heightify({element: 'div'}), 'OK' )
+    expect(heightify({element: 'div'})).to.be.an('object')
   })
 
   it('should throw if heightify has no arguments defined', () => {
@@ -14,9 +14,18 @@ describe('Heightify', () => {
     }).to.throw(Error)
   })
 
-  it('should throw if element contains no images', () => {
+  it('should throw if heightify has wrong argument type defined', () => {
     expect(() => {
-      heightify('div', 'set images to true')
+      heightify('yeeah')
+    }).to.throw(Error)
+  })
+
+  it('should throw if hasImages contains wrong key type', () => {
+    expect(() => {
+      heightify({
+        element: 'div',
+        hasImages: 'this is an unwanted string'
+      })
     }).to.throw(Error)
   })
 })
