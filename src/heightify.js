@@ -20,7 +20,6 @@ function allHeights(listOfHeights) {
 
 function containsImages(element, callback) {
   return imagesLoaded(element, (instance) => {
-    console.log(instance)
     if (instance.images.length === 0) {
       throw new Error(
         `It seems like you are setting images option ` +
