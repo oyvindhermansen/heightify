@@ -69,7 +69,7 @@ function applyHeightsToElements(elements, tallestNum) {
 * the specified DOM-element the same heights as the tallest
 * element defined.
 * @param {any} element DOM node to apply the heights on
-* @param {Boolean}
+* @param {Boolean} hasImages
 * @returns {Object} options with the values specified.
 */
 
