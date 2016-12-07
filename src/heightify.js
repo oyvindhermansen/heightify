@@ -1,5 +1,3 @@
-/* @flow */
-
 import imagesLoaded from 'imagesloaded'
 
 function findHeighestInArray(arr) {
