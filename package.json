@@ -12,6 +12,9 @@
     "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "prepublish": "npm run clean && npm run test && npm run build"
   },
+  "pre-commit": [
+    "build"
+  ],
   "files": [
     "lib",
     "src"
@@ -50,6 +53,7 @@
     "rimraf": "^2.5.2"
   },
   "dependencies": {
-    "imagesloaded": "^4.1.0"
+    "imagesloaded": "^4.1.0",
+    "pre-commit": "^1.1.3"
   }
 }
