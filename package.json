@@ -13,7 +13,7 @@
     "prepublish": "npm run clean && npm run test && npm run build"
   },
   "pre-commit": [
-    "build"
+    "build", "test"
   ],
   "files": [
     "lib",
