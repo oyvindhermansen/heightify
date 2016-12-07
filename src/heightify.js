@@ -1,9 +1,43 @@
+/* @flow */
+
 import imagesLoaded from 'imagesloaded'
+
+function findHeighestInArray(arr) {
+  return Math.max(...arr)
+}
+
+function allHeights(listOfHeights) {
+  return saveHeights(listOfHeights).map(item => item)
+}
+
+/**
+* @param {any} element
+* @param {Function} callback
+* containImages is checking wether if the images is complete
+* run the callback.
+* @returns {Function} callback
+*/
 
 function containsImages(element, callback) {
   return imagesLoaded(element, (instance) => {
-    if (instance.complete) {
-      if (callback && typeof callback === 'function') {
+    console.log(instance)
+    if (instance.images.length === 0) {
+      throw new Error(
+        `It seems like you are setting images option ` +
+        `to true, when imagesLoaded cannot find any images. ` +
+        `Consider turning off images option or make sure your ` +
+        `images are loading correctly.`
+      )
+    }
+
+    if (instance.isComplete) {
+      if (callback) {
+        if (typeof callback !== 'function') {
+          throw new Error(
+            `You are specifying the callback as '${typeof callback}'. ` +
+            `Please define a function instead.`
+          )
+        }
         return callback()
       }
     }
@@ -18,20 +52,13 @@ function containsImages(element, callback) {
 * @returns {Array} storedHeights The array which holds
 * the heights of the DOM nodes.
 */
+
 function saveHeights(elements) {
   const storedHeights = []
   for (let i = 0; i < elements.length; i++) {
     storedHeights.push(elements[i].clientHeight)
   }
   return storedHeights
-}
-
-function findHeighestInArray(arr) {
-  return Math.max(...arr)
-}
-
-function allHeights(listOfHeights) {
-  return saveHeights(listOfHeights).map(item => item)
 }
 
 function applyHeightsToElements(elements, tallestNum) {
@@ -65,15 +92,11 @@ function heightify(element, hasImages) {
   if (hasImages) {
     if (typeof hasImages !== 'boolean') {
       throw new Error(
-        `The option of 'hasImages' ` +
+        `The option of 'images' ` +
         `is either true or false - and not ` +
         `'${typeof hasImages}'`
       )
     } else {
-      /**
-      * TODO This is bugging, and text is not collapsing.
-      * Need to handle this properly with imagesloaded.
-      */
       containsImages(
         element,
         () => {
