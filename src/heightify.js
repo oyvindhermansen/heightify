@@ -1,13 +1,28 @@
 import imagesLoaded from 'imagesloaded'
 
+/**
+* @param {Array} arr
+* @returns {Number} - the heighest
+* integer in given array
+*/
+
 function findHeighestInArray(arr) {
   return Math.max(...arr)
 }
+
+/**
+* @param {Array} listOfHeights
+* @returns {any} - mapped items of listOfHeights
+*/
 
 function allHeights(listOfHeights) {
   return saveHeights(listOfHeights).map(item => item)
 }
 
+/**
+* @param {Object} obj
+* @returns {Boolean}
+*/
 
 function isObject(obj) {
   var objType = typeof obj
@@ -16,7 +31,6 @@ function isObject(obj) {
   }
   return false
 }
-
 
 /**
 * @param {any} element
@@ -27,26 +41,35 @@ function isObject(obj) {
 */
 
 function containsImages(element, callback) {
-  return imagesLoaded(element, (instance) => {
+  imagesLoaded(document.querySelector(element), (instance) => {
     if (instance.images.length === 0) {
       console.warn(
         `It seems like you are setting the images option ` +
         `to true, when imagesLoaded cannot find any images. ` +
-        `Consider turning off the 'hasImages' option or make sure your ` +
-        `images are loading correctly.`
+        `Consider turning off the 'hasImages' option or ` +
+        `make sure your images are loading correctly.`
       )
     }
 
+    if (instance.hasAnyBroken) {
+      console.log('----- ONE OR MORE IS BROKEN ------')
+    }
+
     if (instance.isComplete) {
+      console.log('----- INSTANCE IS COMPLETE -----')
       if (callback) {
+        console.log('----- CALLBACK EXISTS -----')
         if (typeof callback !== 'function') {
           throw new Error(
             `You are specifying the callback as '${typeof callback}'. ` +
             `Please define a function instead.`
           )
         }
+        console.log('----- HEIGHT IS APPLYED -----')
         return callback()
       }
+    } else {
+      console.log('---IMAGES WERE NOT COMPLETE FOR SOME REASON----')
     }
   })
 }
@@ -68,6 +91,13 @@ function saveHeights(elements) {
   return storedHeights
 }
 
+/**
+* @param {any} elements
+* @param {Number} tallestNum
+* @return the mapped item of elements with the tallestNum
+* as inline height.
+*/
+
 function applyHeightsToElements(elements, tallestNum) {
   return elements.map((item, index) => {
     return elements[index].style.height = `${tallestNum}px`
@@ -78,13 +108,15 @@ function applyHeightsToElements(elements, tallestNum) {
 * Heightify - the function you run when you want to give
 * the specified DOM-element the same heights as the tallest
 * element defined.
-* @param {any} element DOM node to apply the heights on
-* @param {Boolean} hasImages
-* @returns {Object} options with the values specified.
+* @param {Object} opts - Specify which element you would
+* like to set equally heights on with the key: `element`.
+* @return {Object} opts - The object with the options specified.
 */
 
 function heightify(opts = {}) {
-  // needs check for plain Object
+  /**
+  * Setting the initial settings to heightify
+  */
   opts = ({
     element: null,
     hasImages: false
@@ -93,6 +125,7 @@ function heightify(opts = {}) {
   const elements = document.querySelectorAll(opts.element)
   const elementsToArray = [...elements]
   const tallestElement = findHeighestInArray(allHeights(elementsToArray))
+  const newStateOfElements = elementsToArray
 
   if (!isObject(opts)) {
     throw new Error(
@@ -101,11 +134,11 @@ function heightify(opts = {}) {
     )
   }
 
-  if (!opts.element) {
+  if (!opts.hasOwnProperty('element')) {
     throw new Error(
       `You need to specify a DOM element ` +
-      `as a first argument to apply the height ` +
-      `with.`
+      `as a first object key for specifying ` +
+      `which elements you want the same heights on.`
     )
   }
 
@@ -117,19 +150,21 @@ function heightify(opts = {}) {
         `'${typeof opts.hasImages}'`
       )
     } else {
+      console.log('---- IMAGES FOUND -----')
       containsImages(
         opts.element,
         () => {
           applyHeightsToElements(
-            elementsToArray,
+            newStateOfElements,
             tallestElement
           )
         }
       )
     }
   } else {
+    console.log('---- NO HASIMAGES SPECIFIED -----')
     // No images found. Run this the normal way.
-    applyHeightsToElements(elementsToArray, tallestElement)
+    applyHeightsToElements(newStateOfElements, tallestElement)
   }
 
   return opts

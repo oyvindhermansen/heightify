@@ -23,15 +23,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+/**
+* @param {Array} arr
+* @returns {Number} - the heighest
+* integer in given array
+*/
+
 function findHeighestInArray(arr) {
   return Math.max.apply(Math, _toConsumableArray(arr));
 }
+
+/**
+* @param {Array} listOfHeights
+* @returns {any} - mapped items of listOfHeights
+*/
 
 function allHeights(listOfHeights) {
   return saveHeights(listOfHeights).map(function (item) {
     return item;
   });
 }
+
+/**
+* @param {Object} obj
+* @returns {Boolean}
+*/
 
 function isObject(obj) {
   var objType = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
@@ -50,18 +66,27 @@ function isObject(obj) {
 */
 
 function containsImages(element, callback) {
-  return (0, _imagesloaded2.default)(element, function (instance) {
+  (0, _imagesloaded2.default)(document.querySelector(element), function (instance) {
     if (instance.images.length === 0) {
-      console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or make sure your ' + 'images are loading correctly.');
+      console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
+    }
+
+    if (instance.hasAnyBroken) {
+      console.log('----- ONE OR MORE IS BROKEN ------');
     }
 
     if (instance.isComplete) {
+      console.log('----- INSTANCE IS COMPLETE -----');
       if (callback) {
+        console.log('----- CALLBACK EXISTS -----');
         if (typeof callback !== 'function') {
           throw new Error('You are specifying the callback as \'' + (typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) + '\'. ' + 'Please define a function instead.');
         }
+        console.log('----- HEIGHT IS APPLYED -----');
         return callback();
       }
+    } else {
+      console.log('---IMAGES WERE NOT COMPLETE FOR SOME REASON----');
     }
   });
 }
@@ -83,6 +108,13 @@ function saveHeights(elements) {
   return storedHeights;
 }
 
+/**
+* @param {any} elements
+* @param {Number} tallestNum
+* @return the mapped item of elements with the tallestNum
+* as inline height.
+*/
+
 function applyHeightsToElements(elements, tallestNum) {
   return elements.map(function (item, index) {
     return elements[index].style.height = tallestNum + 'px';
@@ -93,15 +125,17 @@ function applyHeightsToElements(elements, tallestNum) {
 * Heightify - the function you run when you want to give
 * the specified DOM-element the same heights as the tallest
 * element defined.
-* @param {any} element DOM node to apply the heights on
-* @param {Boolean} hasImages
-* @returns {Object} options with the values specified.
+* @param {Object} opts - Specify which element you would
+* like to set equally heights on with the key: `element`.
+* @return {Object} opts - The object with the options specified.
 */
 
 function heightify() {
   var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-  // needs check for plain Object
+  /**
+  * Setting the initial settings to heightify
+  */
   opts = ({
     element: null,
     hasImages: false
@@ -110,74 +144,33 @@ function heightify() {
   var elements = document.querySelectorAll(opts.element);
   var elementsToArray = [].concat(_toConsumableArray(elements));
   var tallestElement = findHeighestInArray(allHeights(elementsToArray));
+  var newStateOfElements = elementsToArray;
 
   if (!isObject(opts)) {
     throw new Error('Argument specified for heightify is not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. ' + 'Please use object with the keys \'element\' and \'hasImages\'.');
   }
 
-  if (!opts.element) {
-    throw new Error('You need to specify a DOM element ' + 'as a first argument to apply the height ' + 'with.');
+  if (!opts.hasOwnProperty('element')) {
+    throw new Error('You need to specify a DOM element ' + 'as a first object key for specifying ' + 'which elements you want the same heights on.');
   }
 
   if (opts.hasImages) {
     if (typeof opts.hasImages !== 'boolean') {
       throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + _typeof(opts.hasImages) + '\''));
     } else {
+      console.log('---- IMAGES FOUND -----');
       containsImages(opts.element, function () {
-        applyHeightsToElements(elementsToArray, tallestElement);
+        applyHeightsToElements(newStateOfElements, tallestElement);
       });
     }
   } else {
+    console.log('---- NO HASIMAGES SPECIFIED -----');
     // No images found. Run this the normal way.
-    applyHeightsToElements(elementsToArray, tallestElement);
+    applyHeightsToElements(newStateOfElements, tallestElement);
   }
 
   return opts;
 }
-
-/*
-function heightify(element, hasImages) {
-  const elements = document.querySelectorAll(element)
-  const elementsToArray = [...elements]
-  const tallestElement = findHeighestInArray(allHeights(elementsToArray))
-
-  if (!element) {
-    throw new Error(
-      `You need to specify a DOM element ` +
-      `as a first argument to apply the height ` +
-      `with.`
-    )
-  }
-
-  if (hasImages) {
-    if (typeof hasImages !== 'boolean') {
-      throw new Error(
-        `The option of 'images' ` +
-        `is either true or false - and not ` +
-        `'${typeof hasImages}'`
-      )
-    } else {
-      containsImages(
-        element,
-        () => {
-          applyHeightsToElements(
-            elementsToArray,
-            tallestElement
-          )
-        }
-      )
-    }
-  } else {
-    // No images found. Run this the normal way.
-    applyHeightsToElements(elementsToArray, tallestElement)
-  }
-
-  return {
-    element,
-    hasImages
-  }
-}
-*/
 
 exports.default = heightify;
 },{"imagesloaded":4}],3:[function(require,module,exports){
