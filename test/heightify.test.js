@@ -5,7 +5,6 @@ import { findHeighestInArray, allHeights } from '../src/heightify'
 describe('Heightify', () => {
   it('should be ok', () => {
     assert.isOk(heightify({element: 'div'}), 'OK' )
-    expect(heightify({element: 'div'})).to.be.an('object')
   })
 
   it('should throw if heightify has no arguments defined', () => {
