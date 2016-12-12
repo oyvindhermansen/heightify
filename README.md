@@ -18,19 +18,32 @@ import heightify from 'heightify'
 * Sets all divs to the same height as the tallest div on the page
 */
 
-heightify('div')
+heightify({
+  element: 'div',
+})
 
 /**
-* You can also pass a second argument: true/false.
+* You can also pass a key called 'hasImages'.
 * this will check wether your element contain images.
 * If true, the heightify will run through imagesLoaded
 * before setting the height. This will fix bug with a
-* non-collapsing image.
+* non-collapsing content.
 */
 
-heightify('div', true)
+heightify({
+  element: 'div',
+  hasImages: true
+})
 
 ```
+
+## Dev
+Currently no watch-flags or taskrunner for rapid development.
+(Will implement before this merges to master)
+
+When running dev, used use `$ npm run dev`,
+and this will build new bundle and rebuild the
+examples.
 
 ## Build:
 For the heightify package itself:

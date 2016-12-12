@@ -66,7 +66,7 @@ function isObject(obj) {
 */
 
 function containsImages(element, callback) {
-  (0, _imagesloaded2.default)(document.querySelector(element), function (instance) {
+  (0, _imagesloaded2.default)(element, function (instance) {
     if (instance.images.length === 0) {
       console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
     }
