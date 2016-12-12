@@ -1,14 +1,6 @@
-import imagesLoaded from 'imagesloaded'
-
-/**
-* @param {Array} arr
-* @returns {Number} - the heighest
-* integer in given array
-*/
-
-function findHeighestInArray(arr) {
-  return Math.max(...arr)
-}
+'use strict'
+import { findHeighestInArray, isObject } from './helpers/helpers'
+import containsImages from './containsImages'
 
 /**
 * @param {Array} listOfHeights
@@ -17,61 +9,6 @@ function findHeighestInArray(arr) {
 
 function allHeights(listOfHeights) {
   return saveHeights(listOfHeights).map(item => item)
-}
-
-/**
-* @param {Object} obj
-* @returns {Boolean}
-*/
-
-function isObject(obj) {
-  var objType = typeof obj
-  if (!Array.isArray(obj) && objType === 'object' ) {
-    return true
-  }
-  return false
-}
-
-/**
-* @param {any} element
-* @param {Function} callback
-* containImages is checking wether if the images is complete
-* run the callback.
-* @returns {Function} callback
-*/
-
-function containsImages(element, callback) {
-  imagesLoaded(element, (instance) => {
-    if (instance.images.length === 0) {
-      console.warn(
-        `It seems like you are setting the images option ` +
-        `to true, when imagesLoaded cannot find any images. ` +
-        `Consider turning off the 'hasImages' option or ` +
-        `make sure your images are loading correctly.`
-      )
-    }
-
-    if (instance.hasAnyBroken) {
-      console.log('----- ONE OR MORE IS BROKEN ------')
-    }
-
-    if (instance.isComplete) {
-      console.log('----- INSTANCE IS COMPLETE -----')
-      if (callback) {
-        console.log('----- CALLBACK EXISTS -----')
-        if (typeof callback !== 'function') {
-          throw new Error(
-            `You are specifying the callback as '${typeof callback}'. ` +
-            `Please define a function instead.`
-          )
-        }
-        console.log('----- HEIGHT IS APPLYED -----')
-        return callback()
-      }
-    } else {
-      console.log('---IMAGES WERE NOT COMPLETE FOR SOME REASON----')
-    }
-  })
 }
 
 /**

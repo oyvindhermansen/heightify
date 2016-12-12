@@ -6,7 +6,7 @@ heightify({
   hasImages: true
 })
 
-},{"../lib/heightify":2}],2:[function(require,module,exports){
+},{"../lib/heightify":3}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21,42 +21,6 @@ var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-/**
-* @param {Array} arr
-* @returns {Number} - the heighest
-* integer in given array
-*/
-
-function findHeighestInArray(arr) {
-  return Math.max.apply(Math, _toConsumableArray(arr));
-}
-
-/**
-* @param {Array} listOfHeights
-* @returns {any} - mapped items of listOfHeights
-*/
-
-function allHeights(listOfHeights) {
-  return saveHeights(listOfHeights).map(function (item) {
-    return item;
-  });
-}
-
-/**
-* @param {Object} obj
-* @returns {Boolean}
-*/
-
-function isObject(obj) {
-  var objType = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
-  if (!Array.isArray(obj) && objType === 'object') {
-    return true;
-  }
-  return false;
-}
-
 /**
 * @param {any} element
 * @param {Function} callback
@@ -67,12 +31,14 @@ function isObject(obj) {
 
 function containsImages(element, callback) {
   (0, _imagesloaded2.default)(element, function (instance) {
+    console.log(instance);
     if (instance.images.length === 0) {
       console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
     }
 
     if (instance.hasAnyBroken) {
       console.log('----- ONE OR MORE IS BROKEN ------');
+      console.warn('It looks like one or several images ' + 'in your specified element is broken.');
     }
 
     if (instance.isComplete) {
@@ -85,9 +51,38 @@ function containsImages(element, callback) {
         console.log('----- HEIGHT IS APPLYED -----');
         return callback();
       }
-    } else {
-      console.log('---IMAGES WERE NOT COMPLETE FOR SOME REASON----');
     }
+  });
+}
+
+exports.default = containsImages;
+},{"imagesloaded":6}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var _helpers = require('./helpers/helpers');
+
+var _containsImages = require('./containsImages');
+
+var _containsImages2 = _interopRequireDefault(_containsImages);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+* @param {Array} listOfHeights
+* @returns {any} - mapped items of listOfHeights
+*/
+
+function allHeights(listOfHeights) {
+  return saveHeights(listOfHeights).map(function (item) {
+    return item;
   });
 }
 
@@ -143,10 +138,10 @@ function heightify() {
 
   var elements = document.querySelectorAll(opts.element);
   var elementsToArray = [].concat(_toConsumableArray(elements));
-  var tallestElement = findHeighestInArray(allHeights(elementsToArray));
+  var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
   var newStateOfElements = elementsToArray;
 
-  if (!isObject(opts)) {
+  if (!(0, _helpers.isObject)(opts)) {
     throw new Error('Argument specified for heightify is not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. ' + 'Please use object with the keys \'element\' and \'hasImages\'.');
   }
 
@@ -159,7 +154,7 @@ function heightify() {
       throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + _typeof(opts.hasImages) + '\''));
     } else {
       console.log('---- IMAGES FOUND -----');
-      containsImages(opts.element, function () {
+      (0, _containsImages2.default)(opts.element, function () {
         applyHeightsToElements(newStateOfElements, tallestElement);
       });
     }
@@ -173,7 +168,43 @@ function heightify() {
 }
 
 exports.default = heightify;
-},{"imagesloaded":4}],3:[function(require,module,exports){
+},{"./containsImages":2,"./helpers/helpers":4}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+exports.findHeighestInArray = findHeighestInArray;
+exports.isObject = isObject;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+* @param {Array} arr
+* @returns {Number} - the heighest
+* integer in given array
+*/
+
+function findHeighestInArray(arr) {
+  return Math.max.apply(Math, _toConsumableArray(arr));
+}
+
+/**
+* @param {Object} obj
+* @returns {Boolean}
+*/
+
+function isObject(obj) {
+  var objType = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
+  if (!Array.isArray(obj) && objType === 'object') {
+    return true;
+  }
+  return false;
+}
+},{}],5:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter
@@ -284,7 +315,7 @@ return EvEmitter;
 
 }));
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*!
  * imagesLoaded v4.1.0
  * JavaScript is all like "You images are done yet or what?"
@@ -656,4 +687,4 @@ return ImagesLoaded;
 
 });
 
-},{"ev-emitter":3}]},{},[1]);
+},{"ev-emitter":5}]},{},[1]);
