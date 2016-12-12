@@ -6,6 +6,11 @@ heightify({
   hasImages: true
 })
 
+heightify({
+  element: '.lol2',
+  hasImages: true
+})
+
 },{"../lib/heightify":3}],2:[function(require,module,exports){
 'use strict';
 
@@ -24,23 +29,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
 * @param {any} element
 * @param {Function} callback
-* containImages is checking wether if the images is complete
-* run the callback.
+* containImages is checking if the
+* images is complete, then run the callback.
 * @returns {Function} callback
 */
 
 function containsImages(element, callback) {
   (0, _imagesloaded2.default)(element, function (instance) {
-    console.log(instance);
+    /**
+    * Checking if the instance actually contains any images.
+    * If not, run console.warn
+    */
     if (instance.images.length === 0) {
       console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
     }
 
+    /**
+    * Checking if the images inside your specified elements
+    * is broken. If one or some are, run console.warn
+    */
     if (instance.hasAnyBroken) {
-      console.log('----- ONE OR MORE IS BROKEN ------');
       console.warn('It looks like one or several images ' + 'in your specified element is broken.');
     }
 
+    /**
+    * Checking if the images inside your specified elements
+    * is done loading. If they are, return the callback
+    */
     if (instance.isComplete) {
       console.log('----- INSTANCE IS COMPLETE -----');
       if (callback) {
@@ -146,7 +161,7 @@ function heightify() {
   }
 
   if (!opts.hasOwnProperty('element')) {
-    throw new Error('You need to specify a DOM element ' + 'as a first object key for specifying ' + 'which elements you want the same heights on.');
+    throw new Error('You need to set a DOM element ' + 'as a first object key for specifying ' + 'which elements you want the same heights on.');
   }
 
   if (opts.hasImages) {
@@ -155,13 +170,13 @@ function heightify() {
     } else {
       console.log('---- IMAGES FOUND -----');
       (0, _containsImages2.default)(opts.element, function () {
-        applyHeightsToElements(newStateOfElements, tallestElement);
+        console.log('----- CALLBACK EXECUTED  -----');
+        return applyHeightsToElements(newStateOfElements, tallestElement);
       });
     }
   } else {
-    console.log('---- NO HASIMAGES SPECIFIED -----');
     // No images found. Run this the normal way.
-    applyHeightsToElements(newStateOfElements, tallestElement);
+    return applyHeightsToElements(newStateOfElements, tallestElement);
   }
 
   return opts;

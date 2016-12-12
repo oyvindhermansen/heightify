@@ -8,7 +8,7 @@
                 box-sizing: border-box;
             }
 
-            div {
+            .lol, .lol2 {
                 float: left;
                 margin: 1rem;
                 padding: 1rem;
@@ -18,14 +18,56 @@
 
             img {
                 max-width: 100%;
+                display: inline-block;
+            }
+            .divider {
+                width: 100%;
                 display: table;
             }
         </style>
     </head>
     <body>
-        <div class="lol"><img src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" /> <p>wdewd wd wedw dd wd wdw dw</p></div>
-        <div class="lol"><img src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" /><p>wdew</p></div>
-        <div class="lol"><img src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" /> <p>wde ed ed ed ed ed ed ed ed ed e ede de e de de de de d e e de de de de d ed e eded ededed ededed eded ed ed  eded ede ed ed ed ed ed ed e de d e edewd ww dw</p></div>
+        <!-- TEST WITH EXTERNAL IMAGES -->
+        <div class="lol">
+            <div>
+                <img src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" />
+            </div>
+            <p>wdewd wd wedw dd wd wdw dw</p>
+            <p>
+                wdewd wd wedw dd wd wdw dw wdewd wd wedw dd wd wdw dw
+                wdewd wd wedw dd wd wdw dw wdewd wd wedw dd wd wdw dw
+            </p>
+        </div>
+        <div class="lol">
+            <img src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" />
+            <p>wdewd wd wedw dd wd wdw dw</p>
+        </div>
+        <div class="lol">
+            <img src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" />
+            <p>wdewd wd wedw dd wd wdw dw</p>
+        </div>
+        <!-- TEST WITH LOCAL IMAGES -->
+        <div class="divider"></div>
+
+        <div class="lol2">
+            <div>
+                <img src="test.jpg" />
+            </div>
+            <p>wdewd wd wedw dd wd wdw dw</p>
+            <p>
+                wdewd wd wedw dd wd wdw dw wdewd wd wedw dd wd wdw dw
+                wdewd wd wedw dd wd wdw dw wdewd wd wedw dd wd wdw dw
+            </p>
+        </div>
+        <div class="lol2">
+            <img src="test.jpg" />
+            <p>wdewd wd wedw dd wd wdw dw</p>
+        </div>
+        <div class="lol2">
+            <img src="test.jpg" />
+            <p>wdewd wd wedw dd wd wdw dw</p>
+        </div>
+
         <script src="./heightify.example.js" charset="utf-8"></script>
     </body>
 </html>

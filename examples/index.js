@@ -4,3 +4,8 @@ heightify({
   element: '.lol',
   hasImages: true
 })
+
+heightify({
+  element: '.lol2',
+  hasImages: true
+})

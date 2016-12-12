@@ -73,7 +73,7 @@ function heightify(opts = {}) {
 
   if (!opts.hasOwnProperty('element')) {
     throw new Error(
-      `You need to specify a DOM element ` +
+      `You need to set a DOM element ` +
       `as a first object key for specifying ` +
       `which elements you want the same heights on.`
     )
@@ -91,7 +91,8 @@ function heightify(opts = {}) {
       containsImages(
         opts.element,
         () => {
-          applyHeightsToElements(
+          console.log('----- CALLBACK EXECUTED  -----')
+          return applyHeightsToElements(
             newStateOfElements,
             tallestElement
           )
@@ -99,9 +100,8 @@ function heightify(opts = {}) {
       )
     }
   } else {
-    console.log('---- NO HASIMAGES SPECIFIED -----')
     // No images found. Run this the normal way.
-    applyHeightsToElements(newStateOfElements, tallestElement)
+    return applyHeightsToElements(newStateOfElements, tallestElement)
   }
 
   return opts

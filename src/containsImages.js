@@ -4,14 +4,17 @@ import imagesLoaded from 'imagesloaded'
 /**
 * @param {any} element
 * @param {Function} callback
-* containImages is checking wether if the images is complete
-* run the callback.
+* containImages is checking if the
+* images is complete, then run the callback.
 * @returns {Function} callback
 */
 
 function containsImages(element, callback) {
   imagesLoaded(element, (instance) => {
-    console.log(instance)
+    /**
+    * Checking if the instance actually contains any images.
+    * If not, run console.warn
+    */
     if (instance.images.length === 0) {
       console.warn(
         `It seems like you are setting the images option ` +
@@ -21,14 +24,21 @@ function containsImages(element, callback) {
       )
     }
 
+    /**
+    * Checking if the images inside your specified elements
+    * is broken. If one or some are, run console.warn
+    */
     if (instance.hasAnyBroken) {
-      console.log('----- ONE OR MORE IS BROKEN ------')
       console.warn(
         `It looks like one or several images ` +
         `in your specified element is broken.`
       )
     }
 
+    /**
+    * Checking if the images inside your specified elements
+    * is done loading. If they are, return the callback
+    */
     if (instance.isComplete) {
       console.log('----- INSTANCE IS COMPLETE -----')
       if (callback) {
