@@ -1,138 +1,12 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var heightify = require('../lib/heightify').heightify
+var heightify = require('../lib/heightify').default
 
-heightify({element: [
-  '.lol',
-  '.test'
-]})
+heightify({
+  element: '.lol',
+  hasImages: true
+})
 
 },{"../lib/heightify":2}],2:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.heightify = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _imagesloaded = require('imagesloaded');
-
-var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
-
-var _isObject = require('./utils/isObject');
-
-var _isObject2 = _interopRequireDefault(_isObject);
-
-var _initialError = require('./utils/initialError');
-
-var _initialError2 = _interopRequireDefault(_initialError);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
-* Heightify - the function you run when you want to give
-* the specified DOM-element the same heights as the tallest
-* element defined.
-* @param {object} opts - Specify which element you would
-* like to set equally heights on with the key: `element`.
-* @return {object} opts - The object with the options specified.
-*/
-
-var Heightify = function () {
-  function Heightify() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? (0, _initialError2.default)() : arguments[0];
-
-    _classCallCheck(this, Heightify);
-
-    this.opts = ({
-      element: null,
-      hasImages: false
-    }, opts);
-
-    this.el = document.querySelectorAll(this.opts.element);
-    this.storedHeights = [];
-
-    this.handleErrorMessages(opts);
-    this.init();
-  }
-
-  _createClass(Heightify, [{
-    key: 'init',
-    value: function init() {
-      if (this.opts.hasImages) {
-        this.hasImages();
-      } else {
-        this.heightify();
-      }
-    }
-  }, {
-    key: 'handleErrorMessages',
-    value: function handleErrorMessages(opts) {
-      if (!(0, _isObject2.default)(opts)) {
-        throw new Error('Expected \'' + opts + '\' to be an object.');
-      }
-
-      if (!opts.hasOwnProperty('element')) {
-        throw new Error('Heightify requires a DOM node ' + 'to match the height with. ' + 'Please specify with the ' + 'object key: \'element\'.');
-      }
-    }
-  }, {
-    key: 'maxNumberInArray',
-    value: function maxNumberInArray(arr) {
-      return Math.max.apply(Math, _toConsumableArray(arr));
-    }
-  }, {
-    key: 'heightify',
-    value: function heightify() {
-      var _this = this;
-
-      for (var i = 0; i < this.el.length; i++) {
-        this.storedHeights.push(this.el[i].clientHeight);
-      }
-
-      return this.storedHeights.map(function (number, index) {
-        _this.el[index].style.height = _this.maxNumberInArray(_this.storedHeights) + 'px';
-      });
-    }
-  }, {
-    key: 'hasImages',
-    value: function hasImages() {
-      var _this2 = this;
-
-      (0, _imagesloaded2.default)(this.opts.element, function () {
-        _this2.heightify();
-      });
-    }
-  }]);
-
-  return Heightify;
-}();
-
-var heightify = exports.heightify = function heightify(opts) {
-  return new Heightify(opts);
-};
-},{"./utils/initialError":3,"./utils/isObject":4,"imagesloaded":6}],3:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = initialError;
-/**
-* @return {void} - Just a function for setting initial error on
-* the argument provided for heightify.
-*
-*/
-
-function initialError() {
-  throw new Error("Expected an object as an argument");
-}
-},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -141,10 +15,38 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-exports.default = isObject;
+var _imagesloaded = require('imagesloaded');
+
+var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 /**
-* @param {object} obj - Check for isPlainObject
-* @return {boolean}
+* @param {Array} arr
+* @returns {Number} - the heighest
+* integer in given array
+*/
+
+function findHeighestInArray(arr) {
+  return Math.max.apply(Math, _toConsumableArray(arr));
+}
+
+/**
+* @param {Array} listOfHeights
+* @returns {any} - mapped items of listOfHeights
+*/
+
+function allHeights(listOfHeights) {
+  return saveHeights(listOfHeights).map(function (item) {
+    return item;
+  });
+}
+
+/**
+* @param {Object} obj
+* @returns {Boolean}
 */
 
 function isObject(obj) {
@@ -154,7 +56,124 @@ function isObject(obj) {
   }
   return false;
 }
-},{}],5:[function(require,module,exports){
+
+/**
+* @param {any} element
+* @param {Function} callback
+* containImages is checking wether if the images is complete
+* run the callback.
+* @returns {Function} callback
+*/
+
+function containsImages(element, callback) {
+  (0, _imagesloaded2.default)(element, function (instance) {
+    if (instance.images.length === 0) {
+      console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
+    }
+
+    if (instance.hasAnyBroken) {
+      console.log('----- ONE OR MORE IS BROKEN ------');
+    }
+
+    if (instance.isComplete) {
+      console.log('----- INSTANCE IS COMPLETE -----');
+      if (callback) {
+        console.log('----- CALLBACK EXISTS -----');
+        if (typeof callback !== 'function') {
+          throw new Error('You are specifying the callback as \'' + (typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) + '\'. ' + 'Please define a function instead.');
+        }
+        console.log('----- HEIGHT IS APPLYED -----');
+        return callback();
+      }
+    } else {
+      console.log('---IMAGES WERE NOT COMPLETE FOR SOME REASON----');
+    }
+  });
+}
+
+/**
+* @param {any} elements The elements you specify when
+* running heightify().
+* This function loops the current specified DOM elements
+* and pushes the clientHeight into an array.
+* @returns {Array} storedHeights The array which holds
+* the heights of the DOM nodes.
+*/
+
+function saveHeights(elements) {
+  var storedHeights = [];
+  for (var i = 0; i < elements.length; i++) {
+    storedHeights.push(elements[i].clientHeight);
+  }
+  return storedHeights;
+}
+
+/**
+* @param {any} elements
+* @param {Number} tallestNum
+* @return the mapped item of elements with the tallestNum
+* as inline height.
+*/
+
+function applyHeightsToElements(elements, tallestNum) {
+  return elements.map(function (item, index) {
+    return elements[index].style.height = tallestNum + 'px';
+  });
+}
+
+/**
+* Heightify - the function you run when you want to give
+* the specified DOM-element the same heights as the tallest
+* element defined.
+* @param {Object} opts - Specify which element you would
+* like to set equally heights on with the key: `element`.
+* @return {Object} opts - The object with the options specified.
+*/
+
+function heightify() {
+  var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  /**
+  * Setting the initial settings to heightify
+  */
+  opts = ({
+    element: null,
+    hasImages: false
+  }, opts);
+
+  var elements = document.querySelectorAll(opts.element);
+  var elementsToArray = [].concat(_toConsumableArray(elements));
+  var tallestElement = findHeighestInArray(allHeights(elementsToArray));
+  var newStateOfElements = elementsToArray;
+
+  if (!isObject(opts)) {
+    throw new Error('Argument specified for heightify is not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. ' + 'Please use object with the keys \'element\' and \'hasImages\'.');
+  }
+
+  if (!opts.hasOwnProperty('element')) {
+    throw new Error('You need to specify a DOM element ' + 'as a first object key for specifying ' + 'which elements you want the same heights on.');
+  }
+
+  if (opts.hasImages) {
+    if (typeof opts.hasImages !== 'boolean') {
+      throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + _typeof(opts.hasImages) + '\''));
+    } else {
+      console.log('---- IMAGES FOUND -----');
+      containsImages(opts.element, function () {
+        applyHeightsToElements(newStateOfElements, tallestElement);
+      });
+    }
+  } else {
+    console.log('---- NO HASIMAGES SPECIFIED -----');
+    // No images found. Run this the normal way.
+    applyHeightsToElements(newStateOfElements, tallestElement);
+  }
+
+  return opts;
+}
+
+exports.default = heightify;
+},{"imagesloaded":4}],3:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter
@@ -265,7 +284,7 @@ return EvEmitter;
 
 }));
 
-},{}],6:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*!
  * imagesLoaded v4.1.0
  * JavaScript is all like "You images are done yet or what?"
@@ -637,4 +656,4 @@ return ImagesLoaded;
 
 });
 
-},{"ev-emitter":5}]},{},[1]);
+},{"ev-emitter":3}]},{},[1]);
