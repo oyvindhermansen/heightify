@@ -13,7 +13,7 @@ function allHeights(listOfHeights) {
 
 /**
 * @param {any} elements The elements you specify when
-* running heightify().
+* running heightify.
 * This function loops the current specified DOM elements
 * and pushes the clientHeight into an array.
 * @returns {Array} storedHeights The array which holds
@@ -64,6 +64,8 @@ function heightify(opts = {}) {
   const tallestElement = findHeighestInArray(allHeights(elementsToArray))
   const newStateOfElements = elementsToArray
 
+  console.log(elements)
+
   if (!newStateOfElements.length) {
     throw new Error(
       `You are trying to set equal heights to the ` +
@@ -82,7 +84,7 @@ function heightify(opts = {}) {
   if (!opts.hasOwnProperty('element')) {
     throw new Error(
       `You need to set a DOM element ` +
-      `as a first object key for specifying ` +
+      `as an object key for specifying ` +
       `which elements you want the same heights on.`
     )
   }
@@ -95,10 +97,19 @@ function heightify(opts = {}) {
         `'${typeof opts.hasImages}'`
       )
     } else {
+      // Images exists in specified element
       containsImages(
         opts.element,
         () => {
-          const calculatedTallestElementWithImage = findHeighestInArray(allHeights(elementsToArray))
+          /**
+          * This is initiatet again with another
+          * constant definition to recalculate
+          * the correct heights with images inside.
+          */
+          const calculatedTallestElementWithImage = findHeighestInArray(
+            allHeights(elementsToArray)
+          )
+
           return applyHeightsToElements(
             newStateOfElements,
             calculatedTallestElementWithImage

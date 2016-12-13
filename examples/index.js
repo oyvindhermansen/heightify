@@ -1,6 +1,6 @@
 var heightify = require('../lib/heightify').default
 
 heightify({
-  element: '.lol',
+  element: '.test',
   hasImages: true
 })

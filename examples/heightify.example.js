@@ -2,7 +2,7 @@
 var heightify = require('../lib/heightify').default
 
 heightify({
-  element: '.lol',
+  element: '.test',
   hasImages: true
 })
 
@@ -95,7 +95,7 @@ function allHeights(listOfHeights) {
 
 /**
 * @param {any} elements The elements you specify when
-* running heightify().
+* running heightify.
 * This function loops the current specified DOM elements
 * and pushes the clientHeight into an array.
 * @returns {Array} storedHeights The array which holds
@@ -148,6 +148,8 @@ function heightify() {
   var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
   var newStateOfElements = elementsToArray;
 
+  console.log(elements);
+
   if (!newStateOfElements.length) {
     throw new Error('You are trying to set equal heights to the ' + ('DOM-node \'' + opts.element + '\', which does not exists. ') + 'Please check your code for possible spelling error.');
   }
@@ -157,15 +159,22 @@ function heightify() {
   }
 
   if (!opts.hasOwnProperty('element')) {
-    throw new Error('You need to set a DOM element ' + 'as a first object key for specifying ' + 'which elements you want the same heights on.');
+    throw new Error('You need to set a DOM element ' + 'as an object key for specifying ' + 'which elements you want the same heights on.');
   }
 
   if (opts.hasImages) {
     if (typeof opts.hasImages !== 'boolean') {
       throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + _typeof(opts.hasImages) + '\''));
     } else {
+      // Images exists in specified element
       (0, _containsImages2.default)(opts.element, function () {
+        /**
+        * This is initiatet again with another
+        * constant definition to recalculate
+        * the correct heights with images inside.
+        */
         var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
+
         return applyHeightsToElements(newStateOfElements, calculatedTallestElementWithImage);
       });
     }
