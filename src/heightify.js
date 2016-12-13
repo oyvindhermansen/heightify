@@ -25,6 +25,7 @@ function saveHeights(elements) {
   for (let i = 0; i < elements.length; i++) {
     storedHeights.push(elements[i].clientHeight)
   }
+  console.log(storedHeights)
   return storedHeights
 }
 
@@ -92,9 +93,10 @@ function heightify(opts = {}) {
         opts.element,
         () => {
           console.log('----- CALLBACK EXECUTED  -----')
+          const calculatedTallestElementWithImage = findHeighestInArray(allHeights(elementsToArray))
           return applyHeightsToElements(
             newStateOfElements,
-            tallestElement
+            calculatedTallestElementWithImage
           )
         }
       )

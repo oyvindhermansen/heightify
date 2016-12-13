@@ -25,9 +25,8 @@ heightify({
 /**
 * You can also pass a key called 'hasImages'.
 * this will check wether your element contain images.
-* If true, the heightify will run through imagesLoaded
-* before setting the height. This will fix bug with a
-* non-collapsing content.
+* If true, heightify will run through imagesLoaded
+* before setting the height.
 */
 
 heightify({

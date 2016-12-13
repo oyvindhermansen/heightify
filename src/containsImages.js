@@ -52,8 +52,9 @@ function containsImages(element, callback) {
         console.log('----- HEIGHT IS APPLYED -----')
         return callback()
       }
+    } else {
+      console.log('--- IMAGES NEVER COMPLETED ----')
     }
-
   })
 }
 

@@ -6,11 +6,6 @@ heightify({
   hasImages: true
 })
 
-heightify({
-  element: '.lol2',
-  hasImages: true
-})
-
 },{"../lib/heightify":3}],2:[function(require,module,exports){
 'use strict';
 
@@ -66,6 +61,8 @@ function containsImages(element, callback) {
         console.log('----- HEIGHT IS APPLYED -----');
         return callback();
       }
+    } else {
+      console.log('--- IMAGES NEVER COMPLETED ----');
     }
   });
 }
@@ -115,6 +112,7 @@ function saveHeights(elements) {
   for (var i = 0; i < elements.length; i++) {
     storedHeights.push(elements[i].clientHeight);
   }
+  console.log(storedHeights);
   return storedHeights;
 }
 
@@ -153,7 +151,7 @@ function heightify() {
 
   var elements = document.querySelectorAll(opts.element);
   var elementsToArray = [].concat(_toConsumableArray(elements));
-  var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
+
   var newStateOfElements = elementsToArray;
 
   if (!(0, _helpers.isObject)(opts)) {
@@ -171,6 +169,7 @@ function heightify() {
       console.log('---- IMAGES FOUND -----');
       (0, _containsImages2.default)(opts.element, function () {
         console.log('----- CALLBACK EXECUTED  -----');
+        var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
         return applyHeightsToElements(newStateOfElements, tallestElement);
       });
     }
