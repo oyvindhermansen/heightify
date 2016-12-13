@@ -64,6 +64,14 @@ function heightify(opts = {}) {
   const tallestElement = findHeighestInArray(allHeights(elementsToArray))
   const newStateOfElements = elementsToArray
 
+  if (!newStateOfElements.length) {
+    throw new Error(
+      `You are trying to set equal heights to the ` +
+      `DOM-node '${opts.element}', which does not exists. ` +
+      `Please check your code for possible spelling error.`
+    )
+  }
+
   if (!isObject(opts)) {
     throw new Error(
       `Argument specified for heightify is not a ${typeof opts}. ` +

@@ -4,6 +4,11 @@ import { findHeighestInArray, allHeights } from '../src/heightify'
 
 describe('Heightify', () => {
   it('should be ok', () => {
+    const el = document.createElement('div')
+    const txt = document.createTextNode('hello world')
+    el.appendChild(txt)
+    document.body.appendChild(el)
+    
     assert.isOk(heightify({element: 'div'}), 'OK' )
   })
 

@@ -6,6 +6,11 @@ heightify({
   hasImages: true
 })
 
+heightify({
+  element: '.thisDoesNotExists',
+  hasImages: true
+})
+
 },{"../lib/heightify":3}],2:[function(require,module,exports){
 'use strict';
 
@@ -52,17 +57,12 @@ function containsImages(element, callback) {
     * is done loading. If they are, return the callback
     */
     if (instance.isComplete) {
-      console.log('----- INSTANCE IS COMPLETE -----');
       if (callback) {
-        console.log('----- CALLBACK EXISTS -----');
         if (typeof callback !== 'function') {
           throw new Error('You are specifying the callback as \'' + (typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) + '\'. ' + 'Please define a function instead.');
         }
-        console.log('----- HEIGHT IS APPLYED -----');
         return callback();
       }
-    } else {
-      console.log('--- IMAGES NEVER COMPLETED ----');
     }
   });
 }
@@ -112,7 +112,6 @@ function saveHeights(elements) {
   for (var i = 0; i < elements.length; i++) {
     storedHeights.push(elements[i].clientHeight);
   }
-  console.log(storedHeights);
   return storedHeights;
 }
 
@@ -151,8 +150,12 @@ function heightify() {
 
   var elements = document.querySelectorAll(opts.element);
   var elementsToArray = [].concat(_toConsumableArray(elements));
-
+  var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
   var newStateOfElements = elementsToArray;
+
+  if (!newStateOfElements.length) {
+    throw new Error('You are trying to set equal heights to \'' + opts.element + '\', ' + 'which does not exists. Check your code for spelling error.');
+  }
 
   if (!(0, _helpers.isObject)(opts)) {
     throw new Error('Argument specified for heightify is not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. ' + 'Please use object with the keys \'element\' and \'hasImages\'.');
@@ -166,11 +169,9 @@ function heightify() {
     if (typeof opts.hasImages !== 'boolean') {
       throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + _typeof(opts.hasImages) + '\''));
     } else {
-      console.log('---- IMAGES FOUND -----');
       (0, _containsImages2.default)(opts.element, function () {
-        console.log('----- CALLBACK EXECUTED  -----');
-        var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
-        return applyHeightsToElements(newStateOfElements, tallestElement);
+        var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
+        return applyHeightsToElements(newStateOfElements, calculatedTallestElementWithImage);
       });
     }
   } else {
