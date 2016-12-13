@@ -37,9 +37,6 @@ heightify({
 ```
 
 ## Dev
-Currently no watch-flags or taskrunner for rapid development.
-(Will implement before this merges to master)
-
 When running dev, used use `$ npm run dev`,
 and this will build new bundle and rebuild the
 examples.
