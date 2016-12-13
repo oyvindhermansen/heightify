@@ -88,11 +88,9 @@ function heightify(opts = {}) {
         `'${typeof opts.hasImages}'`
       )
     } else {
-      console.log('---- IMAGES FOUND -----')
       containsImages(
         opts.element,
         () => {
-          console.log('----- CALLBACK EXECUTED  -----')
           const calculatedTallestElementWithImage = findHeighestInArray(allHeights(elementsToArray))
           return applyHeightsToElements(
             newStateOfElements,

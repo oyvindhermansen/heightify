@@ -40,20 +40,15 @@ function containsImages(element, callback) {
     * is done loading. If they are, return the callback
     */
     if (instance.isComplete) {
-      console.log('----- INSTANCE IS COMPLETE -----')
       if (callback) {
-        console.log('----- CALLBACK EXISTS -----')
         if (typeof callback !== 'function') {
           throw new Error(
             `You are specifying the callback as '${typeof callback}'. ` +
             `Please define a function instead.`
           )
         }
-        console.log('----- HEIGHT IS APPLYED -----')
         return callback()
       }
-    } else {
-      console.log('--- IMAGES NEVER COMPLETED ----')
     }
   })
 }
