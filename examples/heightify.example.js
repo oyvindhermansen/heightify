@@ -6,11 +6,6 @@ heightify({
   hasImages: true
 })
 
-heightify({
-  element: '.thisDoesNotExists',
-  hasImages: true
-})
-
 },{"../lib/heightify":3}],2:[function(require,module,exports){
 'use strict';
 
@@ -154,7 +149,7 @@ function heightify() {
   var newStateOfElements = elementsToArray;
 
   if (!newStateOfElements.length) {
-    throw new Error('You are trying to set equal heights to \'' + opts.element + '\', ' + 'which does not exists. Check your code for spelling error.');
+    throw new Error('You are trying to set equal heights to the ' + ('DOM-node \'' + opts.element + '\', which does not exists. ') + 'Please check your code for possible spelling error.');
   }
 
   if (!(0, _helpers.isObject)(opts)) {
