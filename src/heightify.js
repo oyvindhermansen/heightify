@@ -64,8 +64,6 @@ function heightify(opts = {}) {
   const tallestElement = findHeighestInArray(allHeights(elementsToArray))
   const newStateOfElements = elementsToArray
 
-  console.log(elements)
-
   if (!newStateOfElements.length) {
     throw new Error(
       `You are trying to set equal heights to the ` +
