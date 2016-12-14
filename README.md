@@ -24,9 +24,9 @@ heightify({
 ```
 
 ## Options
-Option | Type | Default value | Description
---------- | ---------- | ----------
-hasImages | Boolean | false | Uses imagesLoaded and waits for all images to load before setting correct height
+Option | Type | Default | Description
+--------- | ------- | -------
+hasImages | Boolean | false | Uses imagesLoaded for loading images before setting heights
 
 ## Dev
 When running dev, used use `$ npm run dev`,
