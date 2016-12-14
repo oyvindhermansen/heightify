@@ -21,20 +21,12 @@ import heightify from 'heightify'
 heightify({
   element: 'div',
 })
-
-/**
-* You can also pass a key called 'hasImages'.
-* this will check wether your element contain images.
-* If true, heightify will run through imagesLoaded
-* before setting the height.
-*/
-
-heightify({
-  element: 'div',
-  hasImages: true
-})
-
 ```
+
+## Options
+Option | Type | Default value | Description
+--- | --- | ---
+hasImages | Boolean | false | If true, heightify will go through `imagesLoaded` and find the correct height with the images inside specified element. It also makes sure the heights are not set before all images are loaded.
 
 ## Dev
 When running dev, used use `$ npm run dev`,
@@ -51,3 +43,6 @@ When testing the examples, run:
 ## Tests
 * `$ npm test`
 * `$ npm run test:watch`
+
+## Contribute
+If you want to contribute, just clone the repo and make a pull request or file an issue:)

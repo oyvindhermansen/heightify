@@ -74,8 +74,8 @@ function heightify(opts = {}) {
 
   if (!isObject(opts)) {
     throw new Error(
-      `Argument specified for heightify is not a ${typeof opts}. ` +
-      `Please use object with the keys 'element' and 'hasImages'.`
+      `Argument specified for heightify is ` +
+      `not a ${typeof opts}. Please use an object instead.`
     )
   }
 
