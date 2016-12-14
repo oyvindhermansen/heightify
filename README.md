@@ -25,7 +25,7 @@ heightify({
 
 ## Options
 Option | Type | Default | Description
------------- | ------------- | -------------
+------------ | -------------
 hasImages | Boolean | false | Uses imagesLoaded and waits for images to load before setting height
 
 ## Dev
