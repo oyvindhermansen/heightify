@@ -25,9 +25,9 @@ heightify({
 
 ## Options
 
-Option | Type | Default | Description
------------- | ------------- | -------------
-hasImages | Boolean | false | Uses imagesLoaded
+Option | Type | Default
+--------- | ------- | ----------
+hasImages | Boolean | false
 
 
 ## Dev
