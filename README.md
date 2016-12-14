@@ -24,9 +24,10 @@ heightify({
 ```
 
 ## Options
-Option | Type | Default | Description
---------- | ------- | -------
-hasImages | Boolean | false | Uses imagesLoaded for loading images before setting heights
+First Header | Second Header
+------------ | -------------
+Content from cell 1 | Content from cell 2
+Content in the first column | Content in the second column
 
 ## Dev
 When running dev, used use `$ npm run dev`,
