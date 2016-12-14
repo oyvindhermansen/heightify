@@ -24,9 +24,11 @@ heightify({
 ```
 
 ## Options
+
 Option | Type | Default | Description
------------- | -------------
+------------ | ------------- | -------------
 hasImages | Boolean | false | Uses imagesLoaded
+
 
 ## Dev
 When running dev, used use `$ npm run dev`,
