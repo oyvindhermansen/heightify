@@ -148,14 +148,12 @@ function heightify() {
   var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
   var newStateOfElements = elementsToArray;
 
-  console.log(elements);
-
   if (!newStateOfElements.length) {
     throw new Error('You are trying to set equal heights to the ' + ('DOM-node \'' + opts.element + '\', which does not exists. ') + 'Please check your code for possible spelling error.');
   }
 
   if (!(0, _helpers.isObject)(opts)) {
-    throw new Error('Argument specified for heightify is not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. ' + 'Please use object with the keys \'element\' and \'hasImages\'.');
+    throw new Error('Argument specified for heightify is ' + ('not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. Please use an object instead.'));
   }
 
   if (!opts.hasOwnProperty('element')) {
