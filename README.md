@@ -24,9 +24,11 @@ heightify({
 ```
 
 ## Options
-Option | Type | Default value | Description
---- | --- | ---
-hasImages | Boolean | false | If true, heightify will go through `imagesLoaded` and find the correct height with the images inside specified element. It also makes sure the heights are not set before all images are loaded.
+
+Option | Type | Default
+--------- | ------- | ----------
+hasImages | Boolean | false
+
 
 ## Dev
 When running dev, used use `$ npm run dev`,
