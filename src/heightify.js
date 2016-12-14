@@ -1,6 +1,7 @@
 'use strict'
 import { findHeighestInArray, isObject } from './helpers/helpers'
 import containsImages from './containsImages'
+import destroyOnSize from './destroyOnSize'
 
 /**
 * @param {Array} listOfHeights
@@ -30,7 +31,7 @@ function saveHeights(elements) {
 
 /**
 * @param {any} elements
-* @param {Number} tallestNum
+* @param {number} tallestNum
 * @return the mapped item of elements with the tallestNum
 * as inline height.
 */
@@ -39,6 +40,25 @@ function applyHeightsToElements(elements, tallestNum) {
   return elements.map((item, index) => {
     return elements[index].style.height = `${tallestNum}px`
   })
+}
+
+/**
+* @param {number} size
+* @param {any} elements
+* @param {number} tallestElement
+* @return {function} applyHeightsToElements -
+* This function returns and render the heights
+* on each element, and at the same time, checks
+* wether a destroyOnSize is specified.
+*/
+
+function render(size, elements, tallestElement ) {
+  if (!destroyOnSize(size)) {
+    return applyHeightsToElements(
+      elements,
+      tallestElement
+    )
+  }
 }
 
 /**
@@ -56,7 +76,8 @@ function heightify(opts = {}) {
   */
   opts = ({
     element: null,
-    hasImages: false
+    hasImages: false,
+    destroyOnSize: null
   }, opts)
 
   const elements = document.querySelectorAll(opts.element)
@@ -108,7 +129,8 @@ function heightify(opts = {}) {
             allHeights(elementsToArray)
           )
 
-          return applyHeightsToElements(
+          return render(
+            opts.destroyOnSize,
             newStateOfElements,
             calculatedTallestElementWithImage
           )
@@ -117,7 +139,11 @@ function heightify(opts = {}) {
     }
   } else {
     // No images found. Run this the normal way.
-    return applyHeightsToElements(newStateOfElements, tallestElement)
+    return render(
+      opts.destroyOnSize,
+      newStateOfElements,
+      tallestElement
+    )
   }
 
   return opts
