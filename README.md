@@ -12,26 +12,26 @@ $ npm install
 
 ## Usage
 ```javascript
-import { heightify } from 'heightify'
+import heightify from 'heightify'
 
-// sets all divs to the same height as the tallest div on the page
+/**
+* Sets all divs to the same height as the tallest div on the page
+*/
+
 heightify({
   element: 'div',
-  hasImages: true // Default is false
 })
 ```
-or if you would like to specify multiple elements, just define
-the element key with an array of elements.
-```javascript
-heightify({
-  element: [
-    '.someClass',
-    '.someOtherClass'
-  ],
-})
-```
-If `hasImages` is set to `true`, it will use `imagesLoaded` before applying
-the height.
+
+## Options
+Option | Type | Default value | Description
+--- | --- | ---
+hasImages | Boolean | false | If true, heightify will go through `imagesLoaded` and find the correct height with the images inside specified element. It also makes sure the heights are not set before all images are loaded.
+
+## Dev
+When running dev, used use `$ npm run dev`,
+and this will build new bundle and rebuild the
+examples.
 
 ## Build:
 For the heightify package itself:
@@ -43,3 +43,6 @@ When testing the examples, run:
 ## Tests
 * `$ npm test`
 * `$ npm run test:watch`
+
+## Contribute
+If you want to contribute, just clone the repo and make a pull request or file an issue:)

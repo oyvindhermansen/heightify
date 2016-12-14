@@ -1,72 +1,127 @@
-import imagesLoaded from 'imagesloaded'
-import isObject from './utils/isObject'
-import initialError from './utils/initialError'
+'use strict'
+import { findHeighestInArray, isObject } from './helpers/helpers'
+import containsImages from './containsImages'
+
+/**
+* @param {Array} listOfHeights
+* @returns {any} - mapped items of listOfHeights
+*/
+
+function allHeights(listOfHeights) {
+  return saveHeights(listOfHeights).map(item => item)
+}
+
+/**
+* @param {any} elements The elements you specify when
+* running heightify.
+* This function loops the current specified DOM elements
+* and pushes the clientHeight into an array.
+* @returns {Array} storedHeights The array which holds
+* the heights of the DOM nodes.
+*/
+
+function saveHeights(elements) {
+  const storedHeights = []
+  for (let i = 0; i < elements.length; i++) {
+    storedHeights.push(elements[i].clientHeight)
+  }
+  return storedHeights
+}
+
+/**
+* @param {any} elements
+* @param {Number} tallestNum
+* @return the mapped item of elements with the tallestNum
+* as inline height.
+*/
+
+function applyHeightsToElements(elements, tallestNum) {
+  return elements.map((item, index) => {
+    return elements[index].style.height = `${tallestNum}px`
+  })
+}
 
 /**
 * Heightify - the function you run when you want to give
 * the specified DOM-element the same heights as the tallest
 * element defined.
-* @param {object} opts - Specify which element you would
+* @param {Object} opts - Specify which element you would
 * like to set equally heights on with the key: `element`.
-* @return {object} opts - The object with the options specified.
+* @return {Object} opts - The object with the options specified.
 */
 
-class Heightify {
-  constructor(opts = initialError()) {
-    this.opts = ({
-      element: null,
-      hasImages: false,
-    }, opts)
+function heightify(opts = {}) {
+  /**
+  * Setting the initial settings to heightify
+  */
+  opts = ({
+    element: null,
+    hasImages: false
+  }, opts)
 
-    this.el = document.querySelectorAll(this.opts.element)
-    this.storedHeights = []
+  const elements = document.querySelectorAll(opts.element)
+  const elementsToArray = [...elements]
+  const tallestElement = findHeighestInArray(allHeights(elementsToArray))
+  const newStateOfElements = elementsToArray
 
-    this.handleErrorMessages(opts)
-    this.init()
+  if (!newStateOfElements.length) {
+    throw new Error(
+      `You are trying to set equal heights to the ` +
+      `DOM-node '${opts.element}', which does not exists. ` +
+      `Please check your code for possible spelling error.`
+    )
   }
 
-  init() {
-    if (this.opts.hasImages) {
-      this.hasImages()
-    } else {
-      this.heightify()
-    }
+  if (!isObject(opts)) {
+    throw new Error(
+      `Argument specified for heightify is ` +
+      `not a ${typeof opts}. Please use an object instead.`
+    )
   }
 
-  handleErrorMessages(opts) {
-    if (!isObject(opts)) {
-      throw new Error(`Expected '${opts}' to be an object.`)
-    }
+  if (!opts.hasOwnProperty('element')) {
+    throw new Error(
+      `You need to set a DOM element ` +
+      `as an object key for specifying ` +
+      `which elements you want the same heights on.`
+    )
+  }
 
-    if (!opts.hasOwnProperty('element')) {
+  if (opts.hasImages) {
+    if (typeof opts.hasImages !== 'boolean') {
       throw new Error(
-        `Heightify requires a DOM node ` +
-        `to match the height with. ` +
-        `Please specify with the ` +
-        `object key: 'element'.`
+        `The option of 'images' ` +
+        `is either true or false - and not ` +
+        `'${typeof opts.hasImages}'`
+      )
+    } else {
+      // Images exists in specified element
+      containsImages(
+        opts.element,
+        () => {
+          /**
+          * This is initiatet again with another
+          * constant definition to recalculate
+          * the correct heights with images inside.
+          */
+          const calculatedTallestElementWithImage = findHeighestInArray(
+            allHeights(elementsToArray)
+          )
+
+          return applyHeightsToElements(
+            newStateOfElements,
+            calculatedTallestElementWithImage
+          )
+        }
       )
     }
+  } else {
+    // No images found. Run this the normal way.
+    return applyHeightsToElements(newStateOfElements, tallestElement)
   }
 
-  maxNumberInArray(arr) {
-    return Math.max(...arr)
-  }
-
-  heightify() {
-    for (let i = 0; i < this.el.length; i++) {
-      this.storedHeights.push(this.el[i].clientHeight)
-    }
-
-    return this.storedHeights.map((number, index) => {
-      this.el[index].style.height = `${this.maxNumberInArray(this.storedHeights)}px`
-    })
-  }
-
-  hasImages() {
-    imagesLoaded(this.opts.element, () => {
-      this.heightify()
-    })
-  }
+  return opts
 }
 
-export const heightify = opts => new Heightify(opts)
+
+export default heightify
