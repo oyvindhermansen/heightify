@@ -14,8 +14,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 var _imagesloaded = require('imagesloaded');
 
 var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
@@ -54,10 +52,9 @@ function containsImages(element, callback) {
     */
     if (instance.isComplete) {
       if (callback) {
-        if (typeof callback !== 'function') {
-          throw new Error('You are specifying the callback as \'' + (typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) + '\'. ' + 'Please define a function instead.');
+        if (typeof callback === 'function') {
+          return callback();
         }
-        return callback();
       }
     }
   });

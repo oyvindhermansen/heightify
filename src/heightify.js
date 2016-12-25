@@ -77,7 +77,7 @@ function heightify(opts = {}) {
   opts = ({
     element: null,
     hasImages: false,
-    destroyOnSize: null
+    destroyOnSize: null,
   }, opts)
 
   const elements = document.querySelectorAll(opts.element)
