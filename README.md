@@ -28,6 +28,7 @@ heightify({
 Option | Type | Default
 --------- | ------- | ----------
 hasImages | Boolean | false
+destroyOnSize | Number | null
 
 
 ## Dev

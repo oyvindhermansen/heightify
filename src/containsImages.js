@@ -41,13 +41,9 @@ function containsImages(element, callback) {
     */
     if (instance.isComplete) {
       if (callback) {
-        if (typeof callback !== 'function') {
-          throw new Error(
-            `You are specifying the callback as '${typeof callback}'. ` +
-            `Please define a function instead.`
-          )
+        if (typeof callback === 'function') {
+          return callback()
         }
-        return callback()
       }
     }
   })

@@ -3,17 +3,16 @@ var heightify = require('../lib/heightify').default
 
 heightify({
   element: '.test',
-  hasImages: true
+  hasImages: true,
+  destroyOnSize: 500
 })
 
-},{"../lib/heightify":3}],2:[function(require,module,exports){
+},{"../lib/heightify":4}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _imagesloaded = require('imagesloaded');
 
@@ -53,17 +52,42 @@ function containsImages(element, callback) {
     */
     if (instance.isComplete) {
       if (callback) {
-        if (typeof callback !== 'function') {
-          throw new Error('You are specifying the callback as \'' + (typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) + '\'. ' + 'Please define a function instead.');
+        if (typeof callback === 'function') {
+          return callback();
         }
-        return callback();
       }
     }
   });
 }
 
 exports.default = containsImages;
-},{"imagesloaded":6}],3:[function(require,module,exports){
+},{"imagesloaded":7}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+function destroyOnSize(size) {
+  var windowWidth = window.innerWidth;
+  if (size) {
+    if (typeof size !== 'number') {
+      throw new Error('Expecting \'size\' to be a number, and not ' + ((typeof size === 'undefined' ? 'undefined' : _typeof(size)) + '.'));
+    }
+    if (windowWidth > size) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return false;
+  }
+}
+
+exports.default = destroyOnSize;
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -77,6 +101,10 @@ var _helpers = require('./helpers/helpers');
 var _containsImages = require('./containsImages');
 
 var _containsImages2 = _interopRequireDefault(_containsImages);
+
+var _destroyOnSize = require('./destroyOnSize');
+
+var _destroyOnSize2 = _interopRequireDefault(_destroyOnSize);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -112,7 +140,7 @@ function saveHeights(elements) {
 
 /**
 * @param {any} elements
-* @param {Number} tallestNum
+* @param {number} tallestNum
 * @return the mapped item of elements with the tallestNum
 * as inline height.
 */
@@ -121,6 +149,22 @@ function applyHeightsToElements(elements, tallestNum) {
   return elements.map(function (item, index) {
     return elements[index].style.height = tallestNum + 'px';
   });
+}
+
+/**
+* @param {number} size
+* @param {any} elements
+* @param {number} tallestElement
+* @return {function} applyHeightsToElements -
+* This function returns and render the heights
+* on each element, and at the same time, checks
+* wether a destroyOnSize is specified.
+*/
+
+function render(size, elements, tallestElement) {
+  if (!(0, _destroyOnSize2.default)(size)) {
+    return applyHeightsToElements(elements, tallestElement);
+  }
 }
 
 /**
@@ -140,7 +184,8 @@ function heightify() {
   */
   opts = ({
     element: null,
-    hasImages: false
+    hasImages: false,
+    destroyOnSize: null
   }, opts);
 
   var elements = document.querySelectorAll(opts.element);
@@ -173,19 +218,19 @@ function heightify() {
         */
         var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
 
-        return applyHeightsToElements(newStateOfElements, calculatedTallestElementWithImage);
+        return render(opts.destroyOnSize, newStateOfElements, calculatedTallestElementWithImage);
       });
     }
   } else {
     // No images found. Run this the normal way.
-    return applyHeightsToElements(newStateOfElements, tallestElement);
+    return render(opts.destroyOnSize, newStateOfElements, tallestElement);
   }
 
   return opts;
 }
 
 exports.default = heightify;
-},{"./containsImages":2,"./helpers/helpers":4}],4:[function(require,module,exports){
+},{"./containsImages":2,"./destroyOnSize":3,"./helpers/helpers":5}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -221,7 +266,7 @@ function isObject(obj) {
   }
   return false;
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter
@@ -332,7 +377,7 @@ return EvEmitter;
 
 }));
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*!
  * imagesLoaded v4.1.0
  * JavaScript is all like "You images are done yet or what?"
@@ -704,4 +749,4 @@ return ImagesLoaded;
 
 });
 
-},{"ev-emitter":5}]},{},[1]);
+},{"ev-emitter":6}]},{},[1]);
