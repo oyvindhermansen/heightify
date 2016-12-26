@@ -25,27 +25,26 @@ heightify({
 
 ## Options
 
-Option | Type | Default
---------- | ------- | ----------
-hasImages | Boolean | false
-destroyOnSize | Number | null
+Option | Type | Default | Description
+--------- | ------- | ---------- |
+hasImages | Boolean | false | imagesLoaded is used, and waiting to set the height after images are loaded.
+destroyOnSize | Int | null
 
 
-## Dev
-When running dev, used use `$ npm run dev`,
-and this will build new bundle and rebuild the
-examples.
+### Development
+`$ npm run dev`
+This will run build on both heightify and examples.
 
-## Build:
-For the heightify package itself:
+### Build:
+For production:
 `$ npm run build`
 
 When testing the examples, run:
 `$ npm run examples`
 
-## Tests
+### Tests
 * `$ npm test`
 * `$ npm run test:watch`
 
-## Contribute
+### Contribute
 If you want to contribute, just clone the repo and make a pull request or file an issue:)
