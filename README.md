@@ -15,37 +15,42 @@ $ npm install
 import heightify from 'heightify'
 
 /**
-* Sets all divs to the same height as the tallest div on the page
+* Sets all divs to the same height as the tallest div on the page.
+* Uses imagesLoaded because 'hasImages' is set to true.
+* Will stop working when screen width is under 500px.
 */
 
 heightify({
   element: 'div',
+  hasImages: true,
+  destroyOnSize: 500
 })
 ```
 
 ## Options
 
+The only required key for heightify is `element`.
+The rest is optional.
+
 Option | Type | Default
 --------- | ------- | ----------
 hasImages | Boolean | false
-destroyOnSize | Number | null
+destroyOnSize | Int | null
 
+### Development
+`$ npm run dev`
+This will run build on both heightify and examples.
 
-## Dev
-When running dev, used use `$ npm run dev`,
-and this will build new bundle and rebuild the
-examples.
-
-## Build:
-For the heightify package itself:
+### Build:
+For production:
 `$ npm run build`
 
 When testing the examples, run:
 `$ npm run examples`
 
-## Tests
+### Tests
 * `$ npm test`
 * `$ npm run test:watch`
 
-## Contribute
+### Contribute
 If you want to contribute, just clone the repo and make a pull request or file an issue:)
