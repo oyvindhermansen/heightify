@@ -27,8 +27,8 @@ heightify({
 
 Option | Type | Default | Description
 --------- | ------- | ---------- |
-hasImages | Boolean | false | imagesLoaded is used, and waiting to set the height after images are loaded.
-destroyOnSize | Int | null
+hasImages | Boolean | false      | If true, ImagesLoaded kicks in, and make sure your images load before setting the height.
+destroyOnSize | Int | null       |
 
 
 ### Development
