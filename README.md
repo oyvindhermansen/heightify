@@ -37,7 +37,7 @@ Option | Type | Default
 hasImages | Boolean | false
 destroyOnSize | Int | null
 
-### Example on how it can work with cards
+### Example on how it works with cards
 ![alt tag](examples/example.png)
 
 ### Development
