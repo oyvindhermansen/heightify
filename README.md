@@ -37,6 +37,9 @@ Option | Type | Default
 hasImages | Boolean | false
 destroyOnSize | Int | null
 
+### Example on how it can work with cards
+![alt tag](examples/example.png)
+
 ### Development
 `$ npm run dev`
 This will run build on both heightify and examples.
