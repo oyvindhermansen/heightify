@@ -22,10 +22,10 @@ function allHeights(listOfHeights) {
 */
 
 function saveHeights(elements) {
-  const storedHeights = []
-  for (let i = 0; i < elements.length; i++) {
-    storedHeights.push(elements[i].clientHeight)
-  }
+  let storedHeights = []
+  elements.map((index, item) => {
+    storedHeights.push(elements[item].clientHeight)
+  })
   return storedHeights
 }
 
@@ -74,21 +74,20 @@ function heightify(opts = {}) {
   /**
   * Setting the initial settings to heightify
   */
-  opts = ({
-    element: null,
-    hasImages: false,
-    destroyOnSize: null,
-  }, opts)
+  const {
+    element,
+    hasImages,
+    destroyOnSize,
+  } = opts
 
-  const elements = document.querySelectorAll(opts.element)
-  const elementsToArray = [...elements]
+  const elementsToArray = [...element]
   const tallestElement = findHeighestInArray(allHeights(elementsToArray))
   const newStateOfElements = elementsToArray
 
   if (!newStateOfElements.length) {
     throw new Error(
       `You are trying to set equal heights to the ` +
-      `DOM-node '${opts.element}', which does not exists. ` +
+      `DOM-node '${element}', which does not exists. ` +
       `Please check your code for possible spelling error.`
     )
   }
@@ -108,17 +107,17 @@ function heightify(opts = {}) {
     )
   }
 
-  if (opts.hasImages) {
-    if (typeof opts.hasImages !== 'boolean') {
+  if (hasImages) {
+    if (typeof hasImages !== 'boolean') {
       throw new Error(
         `The option of 'images' ` +
         `is either true or false - and not ` +
-        `'${typeof opts.hasImages}'`
+        `'${typeof hasImages}'`
       )
     } else {
       // Images exists in specified element
       containsImages(
-        opts.element,
+        element,
         () => {
           /**
           * This is initiatet again with another
@@ -140,7 +139,7 @@ function heightify(opts = {}) {
   } else {
     // No images found. Run this the normal way.
     return render(
-      opts.destroyOnSize,
+      destroyOnSize,
       newStateOfElements,
       tallestElement
     )
