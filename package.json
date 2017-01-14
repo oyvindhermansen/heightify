@@ -9,7 +9,7 @@
     "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive --require test/testhelper.js test/**/*.test.js",
     "test:watch": "npm test -- --watch",
     "examples": "browserify examples/index.js -o examples/heightify.example.js",
-    "build": "cross-env BABEL_ENV=commonjs babili src --out-dir lib",
+    "build": "NODE_ENV=production cross-env BABEL_ENV=commonjs babili src --out-dir lib",
     "prepublish": "npm run clean && npm run test && npm run build",
     "dev": "cross-env BABEL_ENV=commonjs babel src --out-dir lib && npm run examples"
   },
