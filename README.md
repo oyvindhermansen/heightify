@@ -45,7 +45,7 @@ The rest is optional.
 
 ### Development
 `$ npm run dev`
-This will run build on both heightify and examples.
+This will run on both src/ and examples/
 
 ### Build:
 For production:
