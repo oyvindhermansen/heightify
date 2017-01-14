@@ -8,7 +8,7 @@
     "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive --require test/testhelper.js test/**/*.test.js",
     "test:watch": "npm test -- --watch",
     "examples": "browserify examples/index.js -o examples/heightify.example.js",
-    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build": "cross-env BABEL_ENV=commonjs babili src --out-dir lib",
     "prepublish": "npm run clean && npm run test && npm run build",
     "dev": "npm run build && npm run examples"
   },
@@ -45,9 +45,11 @@
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.10.1",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-2": "^6.11.0",
     "babel-register": "^6.9.0",
+    "babili": "0.0.9",
     "chai": "^3.5.0",
     "cross-env": "^3.1.3",
     "istanbul": "^1.0.0-alpha",
