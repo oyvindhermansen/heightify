@@ -2,7 +2,7 @@
 var heightify = require('../lib/heightify').default
 
 heightify({
-  element: '.test',
+  element: document.querySelectorAll('.test'),
   hasImages: true,
   destroyOnSize: 500
 })
@@ -43,7 +43,7 @@ function containsImages(element, callback) {
     * is broken. If one or some are, run console.warn
     */
     if (instance.hasAnyBroken) {
-      console.warn('It looks like one or several images ' + 'in your specified element is broken.');
+      console.warn('It looks like one or several images ' + ('in ' + element.className + ' is broken.'));
     }
 
     /**
@@ -68,7 +68,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function destroyOnSize(size) {
   var windowWidth = window.innerWidth;
@@ -94,7 +94,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _helpers = require('./helpers/helpers');
 
@@ -132,9 +132,9 @@ function allHeights(listOfHeights) {
 
 function saveHeights(elements) {
   var storedHeights = [];
-  for (var i = 0; i < elements.length; i++) {
-    storedHeights.push(elements[i].clientHeight);
-  }
+  elements.map(function (index, item) {
+    storedHeights.push(elements[item].clientHeight);
+  });
   return storedHeights;
 }
 
@@ -177,24 +177,22 @@ function render(size, elements, tallestElement) {
 */
 
 function heightify() {
-  var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   /**
   * Setting the initial settings to heightify
   */
-  opts = ({
-    element: null,
-    hasImages: false,
-    destroyOnSize: null
-  }, opts);
+  var element = opts.element,
+      hasImages = opts.hasImages,
+      destroyOnSize = opts.destroyOnSize;
 
-  var elements = document.querySelectorAll(opts.element);
-  var elementsToArray = [].concat(_toConsumableArray(elements));
+
+  var elementsToArray = [].concat(_toConsumableArray(element));
   var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
   var newStateOfElements = elementsToArray;
 
   if (!newStateOfElements.length) {
-    throw new Error('You are trying to set equal heights to the ' + ('DOM-node \'' + opts.element + '\', which does not exists. ') + 'Please check your code for possible spelling error.');
+    throw new Error('You are trying to set equal heights to the ' + ('DOM-node \'' + element + '\', which does not exists. ') + 'Please check your code for possible spelling error.');
   }
 
   if (!(0, _helpers.isObject)(opts)) {
@@ -205,12 +203,12 @@ function heightify() {
     throw new Error('You need to set a DOM element ' + 'as an object key for specifying ' + 'which elements you want the same heights on.');
   }
 
-  if (opts.hasImages) {
-    if (typeof opts.hasImages !== 'boolean') {
-      throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + _typeof(opts.hasImages) + '\''));
+  if (hasImages) {
+    if (typeof hasImages !== 'boolean') {
+      throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + (typeof hasImages === 'undefined' ? 'undefined' : _typeof(hasImages)) + '\''));
     } else {
       // Images exists in specified element
-      (0, _containsImages2.default)(opts.element, function () {
+      (0, _containsImages2.default)(element, function () {
         /**
         * This is initiatet again with another
         * constant definition to recalculate
@@ -223,7 +221,7 @@ function heightify() {
     }
   } else {
     // No images found. Run this the normal way.
-    return render(opts.destroyOnSize, newStateOfElements, tallestElement);
+    return render(destroyOnSize, newStateOfElements, tallestElement);
   }
 
   return opts;
@@ -237,7 +235,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.findHeighestInArray = findHeighestInArray;
 exports.isObject = isObject;
@@ -379,7 +377,7 @@ return EvEmitter;
 
 },{}],7:[function(require,module,exports){
 /*!
- * imagesLoaded v4.1.0
+ * imagesLoaded v4.1.1
  * JavaScript is all like "You images are done yet or what?"
  * MIT License
  */

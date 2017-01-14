@@ -1,7 +1,7 @@
 var heightify = require('../lib/heightify').default
 
 heightify({
-  element: '.test',
+  element: document.querySelectorAll('.test'),
   hasImages: true,
   destroyOnSize: 500
 })
