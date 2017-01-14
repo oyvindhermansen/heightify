@@ -1,4 +1,3 @@
-'use strict'
 import { findHeighestInArray, isObject } from './helpers/helpers'
 import containsImages from './containsImages'
 import destroyOnSize from './destroyOnSize'
@@ -9,7 +8,7 @@ import destroyOnSize from './destroyOnSize'
 */
 
 function allHeights(listOfHeights) {
-  return saveHeights(listOfHeights).map(item => item)
+  return saveHeights(listOfHeights).map((item) => item)
 }
 
 /**
@@ -71,7 +70,7 @@ function render(size, elements, tallestElement ) {
 */
 
 function heightify(opts = {}) {
-  
+
   const {
     element,
     hasImages,

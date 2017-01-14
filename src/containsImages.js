@@ -1,4 +1,3 @@
-'use strict'
 import imagesLoaded from 'imagesloaded'
 
 /**

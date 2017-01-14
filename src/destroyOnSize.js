@@ -1,4 +1,6 @@
-'use strict'
+/**
+* TODO: This needs documentation
+**/
 
 function destroyOnSize(size) {
   const windowWidth = window.innerWidth
