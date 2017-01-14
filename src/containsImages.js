@@ -14,6 +14,8 @@ function containsImages(element, callback) {
     /**
     * Checking if the instance actually contains any images.
     * If not, run console.warn
+    *
+    * TODO: Only warn in development mode
     */
     if (instance.images.length === 0) {
       console.warn(
@@ -27,6 +29,8 @@ function containsImages(element, callback) {
     /**
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
+    *
+    * TODO: Only warn in development mode
     */
     if (instance.hasAnyBroken) {
       console.warn(

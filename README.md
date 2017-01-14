@@ -51,9 +51,6 @@ This will run build on both heightify and examples.
 For production:
 `$ npm run build`
 
-When testing the examples, run:
-`$ npm run examples`
-
 ### Tests
 * `$ npm test`
 * `$ npm run test:watch`

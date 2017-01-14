@@ -1,4 +1,100 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],2:[function(require,module,exports){
 var heightify = require('../lib/heightify').default
 
 heightify({
@@ -7,7 +103,8 @@ heightify({
   destroyOnSize: 500
 })
 
-},{"../lib/heightify":4}],2:[function(require,module,exports){
+},{"../lib/heightify":5}],3:[function(require,module,exports){
+(function (process){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19,6 +116,10 @@ var _imagesloaded = require('imagesloaded');
 var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __DEV__ = process.env.NODE_ENV ? 'development' : 'production';
+
+console.log(__DEV__);
 
 /**
 * @param {any} element
@@ -34,16 +135,20 @@ function containsImages(element, callback) {
     * Checking if the instance actually contains any images.
     * If not, run console.warn
     */
-    if (instance.images.length === 0) {
-      console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
+    if (__DEV__) {
+      if (instance.images.length === 0) {
+        console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
+      }
     }
 
     /**
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
     */
-    if (instance.hasAnyBroken) {
-      console.warn('It looks like one or several images ' + 'in your element is broken.');
+    if (__DEV__) {
+      if (instance.hasAnyBroken) {
+        console.warn('It looks like one or several images ' + 'in your element is broken.');
+      }
     }
 
     /**
@@ -61,7 +166,8 @@ function containsImages(element, callback) {
 }
 
 exports.default = containsImages;
-},{"imagesloaded":7}],3:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"_process":1,"imagesloaded":8}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -87,7 +193,7 @@ function destroyOnSize(size) {
 }
 
 exports.default = destroyOnSize;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -224,7 +330,7 @@ function heightify() {
 }
 
 exports.default = heightify;
-},{"./containsImages":2,"./destroyOnSize":3,"./helpers/helpers":5}],5:[function(require,module,exports){
+},{"./containsImages":3,"./destroyOnSize":4,"./helpers/helpers":6}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -260,7 +366,7 @@ function isObject(obj) {
   }
   return false;
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter
@@ -371,7 +477,7 @@ return EvEmitter;
 
 }));
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*!
  * imagesLoaded v4.1.1
  * JavaScript is all like "You images are done yet or what?"
@@ -743,4 +849,4 @@ return ImagesLoaded;
 
 });
 
-},{"ev-emitter":6}]},{},[1]);
+},{"ev-emitter":7}]},{},[2]);
