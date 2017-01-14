@@ -21,10 +21,15 @@ import heightify from 'heightify'
 */
 
 heightify({
-  element: 'div',
+  element: document.querySelectorAll('div'),
   hasImages: true,
   destroyOnSize: 500
 })
+
+/**
+* This also works great with jQuery selectors.
+**/
+
 ```
 
 ## Options
