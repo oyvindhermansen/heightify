@@ -37,10 +37,8 @@ heightify({
 The only required key for heightify is `element`.
 The rest is optional.
 
-Option | Type | Default
---------- | ------- | ----------
-hasImages | Boolean | false
-destroyOnSize | Int | null
+* hasImages
+* destroyOnSize
 
 ### Example on how it works with cards
 ![alt tag](examples/example.png)

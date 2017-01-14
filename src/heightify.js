@@ -71,9 +71,7 @@ function render(size, elements, tallestElement ) {
 */
 
 function heightify(opts = {}) {
-  /**
-  * Setting the initial settings to heightify
-  */
+  
   const {
     element,
     hasImages,
@@ -86,8 +84,8 @@ function heightify(opts = {}) {
 
   if (!newStateOfElements.length) {
     throw new Error(
-      `You are trying to set equal heights to the ` +
-      `DOM-node '${element}', which does not exists. ` +
+      `You are trying to set equal heights to a ` +
+      `DOM-node which does not exists. ` +
       `Please check your code for possible spelling error.`
     )
   }
@@ -110,9 +108,7 @@ function heightify(opts = {}) {
   if (hasImages) {
     if (typeof hasImages !== 'boolean') {
       throw new Error(
-        `The option of 'images' ` +
-        `is either true or false - and not ` +
-        `'${typeof hasImages}'`
+        `Expected "hasImages" to be a boolean value`
       )
     } else {
       // Images exists in specified element

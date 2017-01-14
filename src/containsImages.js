@@ -31,7 +31,7 @@ function containsImages(element, callback) {
     if (instance.hasAnyBroken) {
       console.warn(
         `It looks like one or several images ` +
-        `in ${element} is broken.`
+        `in your element is broken.`
       )
     }
 

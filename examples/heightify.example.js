@@ -43,7 +43,7 @@ function containsImages(element, callback) {
     * is broken. If one or some are, run console.warn
     */
     if (instance.hasAnyBroken) {
-      console.warn('It looks like one or several images ' + ('in ' + element.className + ' is broken.'));
+      console.warn('It looks like one or several images ' + 'in your element is broken.');
     }
 
     /**
@@ -178,10 +178,6 @@ function render(size, elements, tallestElement) {
 
 function heightify() {
   var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-  /**
-  * Setting the initial settings to heightify
-  */
   var element = opts.element,
       hasImages = opts.hasImages,
       destroyOnSize = opts.destroyOnSize;
@@ -192,7 +188,7 @@ function heightify() {
   var newStateOfElements = elementsToArray;
 
   if (!newStateOfElements.length) {
-    throw new Error('You are trying to set equal heights to the ' + ('DOM-node \'' + element + '\', which does not exists. ') + 'Please check your code for possible spelling error.');
+    throw new Error('You are trying to set equal heights to a ' + 'DOM-node which does not exists. ' + 'Please check your code for possible spelling error.');
   }
 
   if (!(0, _helpers.isObject)(opts)) {
@@ -205,7 +201,7 @@ function heightify() {
 
   if (hasImages) {
     if (typeof hasImages !== 'boolean') {
-      throw new Error('The option of \'images\' ' + 'is either true or false - and not ' + ('\'' + (typeof hasImages === 'undefined' ? 'undefined' : _typeof(hasImages)) + '\''));
+      throw new Error('Expected "hasImages" to be a boolean value');
     } else {
       // Images exists in specified element
       (0, _containsImages2.default)(element, function () {
