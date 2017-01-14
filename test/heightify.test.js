@@ -1,10 +1,8 @@
 import chai, { expect, assert } from 'chai'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
 import heightify from '../src/heightify'
 import destroyOnSize from '../src/destroyOnSize'
+import { findHeighestInArray, isObject } from '../src/helpers/helpers'
 
-chai.use(sinonChai)
 
 describe('Heightify', () => {
   describe('Error messages', () => {
@@ -14,14 +12,18 @@ describe('Heightify', () => {
       el.appendChild(txt)
       document.body.appendChild(el)
 
-      assert.isOk(heightify({element: 'div'}), 'OK' )
+      assert.isOk(heightify(
+        {
+          element: document.querySelectorAll('div')
+        }
+      ), 'OK' )
     })
 
     it('should throw if element doesnt exists in the DOM', () => {
       expect(() => {
         // Running normally - intended to work, but specifying a DOM-node
         // that doesnt exists for testing purposes
-        heightify({ element: '.test', hasImages: true })
+        heightify({ element: document.querySelectorAll('.test'), hasImages: true })
       }).to.throw(Error)
     })
 
@@ -53,4 +55,23 @@ describe('Heightify', () => {
     })
   })
 
+  describe('Helpers', () => {
+    describe('findHeighestInArray', () => {
+      it('should return the highest integer inside array', () => {
+        const array = [1, 400, 1034, 40, 11, 100]
+        expect(findHeighestInArray(array)).to.equal(1034)
+      })
+    })
+    describe('isObject', () => {
+      it('should return true if input is plain object', () => {
+        const plainObject = { key: 'value' }
+        expect(isObject(plainObject)).to.equal(true)
+      })
+
+      it('should throw if not a plain object', () => {
+        const notPlainObject = [{ key: 'value' }]
+        expect(isObject(notPlainObject)).to.equal(false)
+      })
+    })
+  })
 })
