@@ -192,7 +192,7 @@ function heightify() {
 
 
   var elementsToArray = [].concat(_toConsumableArray(element));
-  var tallestElement = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
+  var tallestElement = (0, _helpers.findHeighestInArray)(saveHeights(elementsToArray));
   var newStateOfElements = elementsToArray;
 
   if (!newStateOfElements.length) {

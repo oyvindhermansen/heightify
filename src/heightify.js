@@ -3,15 +3,6 @@ import containsImages from './containsImages'
 import destroyOnSize from './destroyOnSize'
 
 /**
-* @param {Array} listOfHeights
-* @returns {any} - mapped items of listOfHeights
-*/
-
-function allHeights(listOfHeights) {
-  return saveHeights(listOfHeights).map((item) => item)
-}
-
-/**
 * @param {any} elements The elements you specify when
 * running heightify.
 * This function loops the current specified DOM elements
@@ -78,7 +69,7 @@ function heightify(opts = {}) {
   } = opts
 
   const elementsToArray = [...element]
-  const tallestElement = findHeighestInArray(allHeights(elementsToArray))
+  const tallestElement = findHeighestInArray(saveHeights(elementsToArray))
   const newStateOfElements = elementsToArray
 
   if (!newStateOfElements.length) {
