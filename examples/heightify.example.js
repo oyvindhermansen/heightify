@@ -173,8 +173,7 @@ function render(size, elements, tallestElement) {
 * @return {Object} opts - The object with the options specified.
 */
 
-function heightify() {
-  var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+function heightify(opts) {
   var element = opts.element,
       hasImages = opts.hasImages,
       destroyOnSize = opts.destroyOnSize;

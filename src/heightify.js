@@ -42,7 +42,7 @@ function applyHeightsToElements(elements, tallestNum) {
 * wether a destroyOnSize is specified.
 */
 
-function render(size, number, elements, tallestElement ) {
+function render(size, elements, tallestElement ) {
   if (!destroyOnSize(size)) {
     return applyHeightsToElements(
       elements,
