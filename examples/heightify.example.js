@@ -119,17 +119,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 /**
-* @param {Array} listOfHeights
-* @returns {any} - mapped items of listOfHeights
-*/
-
-function allHeights(listOfHeights) {
-  return saveHeights(listOfHeights).map(function (item) {
-    return item;
-  });
-}
-
-/**
 * @param {any} elements The elements you specify when
 * running heightify.
 * This function loops the current specified DOM elements
@@ -218,7 +207,7 @@ function heightify() {
         * constant definition to recalculate
         * the correct heights with images inside.
         */
-        var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(allHeights(elementsToArray));
+        var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(saveHeights(elementsToArray));
 
         return render(opts.destroyOnSize, newStateOfElements, calculatedTallestElementWithImage);
       });

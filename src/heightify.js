@@ -42,7 +42,7 @@ function applyHeightsToElements(elements, tallestNum) {
 * wether a destroyOnSize is specified.
 */
 
-function render(size, elements, tallestElement ) {
+function render(size, number, elements, tallestElement ) {
   if (!destroyOnSize(size)) {
     return applyHeightsToElements(
       elements,
@@ -60,7 +60,7 @@ function render(size, elements, tallestElement ) {
 * @return {Object} opts - The object with the options specified.
 */
 
-function heightify(opts = {}) {
+function heightify(opts) {
 
   const {
     element,
@@ -111,7 +111,7 @@ function heightify(opts = {}) {
           * the correct heights with images inside.
           */
           const calculatedTallestElementWithImage = findHeighestInArray(
-            allHeights(elementsToArray)
+            saveHeights(elementsToArray)
           )
 
           return render(
