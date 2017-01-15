@@ -5,18 +5,14 @@ import destroyOnSize from './destroyOnSize'
 /**
 * @param {any} elements The elements you specify when
 * running heightify.
-* This function loops the current specified DOM elements
-* and pushes the clientHeight into an array.
-* @returns {Array} storedHeights The array which holds
-* the heights of the DOM nodes.
+* This function loops the current specified DOM elements.
+* @returns {array} mapped elements with clientHeight
 */
 
-function saveHeights(elements) {
-  let storedHeights = []
-  elements.map((index, item) => {
-    storedHeights.push(elements[item].clientHeight)
+function getClientHeight(elements) {
+  return elements.map((index, item) => {
+    return elements[item].clientHeight
   })
-  return storedHeights
 }
 
 /**
@@ -55,9 +51,9 @@ function render(size, elements, tallestElement ) {
 * Heightify - the function you run when you want to give
 * the specified DOM-element the same heights as the tallest
 * element defined.
-* @param {Object} opts - Specify which element you would
+* @param {object} opts - Specify which element you would
 * like to set equally heights on with the key: `element`.
-* @return {Object} opts - The object with the options specified.
+* @return {object} opts - The object with the options specified.
 */
 
 function heightify(opts) {
@@ -69,14 +65,15 @@ function heightify(opts) {
   } = opts
 
   const elementsToArray = [...element]
-  const tallestElement = findHeighestInArray(saveHeights(elementsToArray))
+  const tallestElement = findHeighestInArray(getClientHeight(elementsToArray))
   const newStateOfElements = elementsToArray
 
   if (!newStateOfElements.length) {
     throw new Error(
-      `You are trying to set equal heights to a ` +
-      `DOM-node which does not exists. ` +
-      `Please check your code for possible spelling error.`
+      `You are trying to set equal heights ` +
+      `to a DOM-node which does not exists. ` +
+      `Please check your code for possible ` +
+      `spelling error.`
     )
   }
 
@@ -89,9 +86,8 @@ function heightify(opts) {
 
   if (!opts.hasOwnProperty('element')) {
     throw new Error(
-      `You need to set a DOM element ` +
-      `as an object key for specifying ` +
-      `which elements you want the same heights on.`
+      `Heightify is expecting the key ` +
+      `"element" to calculate height from.`
     )
   }
 
@@ -106,12 +102,11 @@ function heightify(opts) {
         element,
         () => {
           /**
-          * This is initiatet again with another
-          * constant definition to recalculate
+          * redefine constant definition to recalculate
           * the correct heights with images inside.
           */
           const calculatedTallestElementWithImage = findHeighestInArray(
-            saveHeights(elementsToArray)
+            getClientHeight(elementsToArray)
           )
 
           return render(

@@ -128,11 +128,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 */
 
 function saveHeights(elements) {
-  var storedHeights = [];
-  elements.map(function (index, item) {
-    storedHeights.push(elements[item].clientHeight);
+  return elements.map(function (index, item) {
+    return elements[item].clientHeight;
   });
-  return storedHeights;
 }
 
 /**
