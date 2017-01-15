@@ -7,8 +7,7 @@ function destroyOnSize(size) {
   if (size) {
     if (typeof size !== 'number') {
       throw new Error(
-        `Expecting 'size' to be a number, and not ` +
-        `${typeof size}.`
+        `Expecting "size" to be an integer.`
       )
     }
     if (windowWidth > size) {
