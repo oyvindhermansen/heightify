@@ -14,15 +14,9 @@ $ npm install
 ```javascript
 import heightify from 'heightify'
 
-/**
-* Sets all divs to the same height as the tallest div on the page.
-* Uses imagesLoaded because 'hasImages' is set to true.
-* Will stop working when screen width is under 500px.
-*/
-
 heightify({
   element: document.querySelectorAll('div'),
-  hasImages: true,
+  hasImages: true, // uses imagesLoaded
   destroyOnSize: 500
 })
 
