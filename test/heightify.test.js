@@ -1,6 +1,6 @@
 import chai, { expect, assert } from 'chai'
-import heightify from '../src/heightify'
-import destroyOnSize from '../src/destroyOnSize'
+import heightify from '../src/core/heightify'
+import destroyOnSize from '../src/core/destroyOnSize'
 import { findHeighestInArray, isObject } from '../src/helpers/helpers'
 
 

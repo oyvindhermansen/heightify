@@ -1,4 +1,4 @@
-import { findHeighestInArray, isObject } from './helpers/helpers'
+import { findHeighestInArray, isObject } from '../helpers/helpers'
 import containsImages from './containsImages'
 import destroyOnSize from './destroyOnSize'
 

@@ -2,7 +2,7 @@
   "name": "heightify",
   "version": "5.0.0",
   "description": "A module for setting the same height on given elements",
-  "main": "./lib/heightify.js",
+  "main": "./lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "eslint src/",
