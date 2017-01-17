@@ -7,7 +7,7 @@ import destroyOnSize from './destroyOnSize'
 * running heightify.
 * This function loops the current specified DOM elements.
 * @returns {array} mapped elements with clientHeight
-*/
+**/
 
 function getClientHeight(elements) {
   return elements.map((index, item) => {
@@ -20,7 +20,7 @@ function getClientHeight(elements) {
 * @param {number} tallestNum
 * @return the mapped item of elements with the tallestNum
 * as inline height.
-*/
+**/
 
 function applyHeightsToElements(elements, tallestNum) {
   return elements.map((item, index) => {
@@ -36,7 +36,7 @@ function applyHeightsToElements(elements, tallestNum) {
 * This function returns and render the heights
 * on each element, and at the same time, checks
 * wether a destroyOnSize is specified.
-*/
+**/
 
 function render(size, elements, tallestElement ) {
   if (!destroyOnSize(size)) {
@@ -54,7 +54,7 @@ function render(size, elements, tallestElement ) {
 * @param {object} opts - Specify which element you would
 * like to set equally heights on with the key: `element`.
 * @return {object} opts - The object with the options specified.
-*/
+**/
 
 function heightify(opts) {
 
@@ -104,7 +104,7 @@ function heightify(opts) {
           /**
           * redefine constant definition to recalculate
           * the correct heights with images inside.
-          */
+          **/
           const calculatedTallestElementWithImage = findHeighestInArray(
             getClientHeight(elementsToArray)
           )

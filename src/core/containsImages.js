@@ -14,7 +14,7 @@ function containsImages(element, callback) {
     /**
     * Checking if the instance actually contains any images.
     * If not, run console.warn
-    */
+    **/
     if (env !== 'production') {
       if (instance.images.length === 0) {
         console.warn(
@@ -29,7 +29,7 @@ function containsImages(element, callback) {
     /**
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
-    */
+    **/
     if (env !== 'production') {
       if (instance.hasAnyBroken) {
         console.warn(
@@ -42,7 +42,7 @@ function containsImages(element, callback) {
     /**
     * Checking if the images inside your specified element
     * is done loading. If they are, return the callback
-    */
+    **/
     if (instance.isComplete) {
       if (callback) {
         if (typeof callback === 'function') {
@@ -50,13 +50,6 @@ function containsImages(element, callback) {
         }
       }
     }
-  }).on('progress', (instance, image) => {
-    /**
-    * TODO: Want to add a function as a second parameter
-    * to heightify that will work as a loader. This will
-    * make it easy for users to add loaders to images
-    **/
-    return
   })
 }
 
