@@ -1,0 +1,22 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "plugins": [
+        "babel"
+    ],
+    "rules": {
+        "quotes": [1, "single", {"allowTemplateLiterals": true}],
+        "curly": [1, "multi-line", "consistent"],
+        "strict": [1, "never"],
+        "semi": [1, "never"],
+        "no-unused-vars": [1, { "vars": "all", "args": "after-used" }],
+        "no-redeclare": [1, { "builtinGlobals": true }],
+        "brace-style": [1, "1tbs"],
+        "no-alert": 1,
+        "object-shorthand": 1,
+        "arrow-parens": 1
+    }
+}

@@ -6,14 +6,30 @@
         <style media="screen" type="text/css">
             * {
                 box-sizing: border-box;
+                font-family: helvetica;
+            }
+
+            body {
+                background: #eaeaea;
             }
 
             .test {
                 float: left;
                 margin: 1rem;
-                padding: 1rem;
-                background: orange;
-                width: 200px;
+                background: white;
+                width: calc(33.33332% - 2rem);
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            .test__content {
+                padding: 0.5rem 2rem;
+            }
+
+            .container {
+                max-width: 1224px;
+                width: 100%;
+                margin: 0 auto;
+                padding: 7rem 1rem;
             }
 
             img {
@@ -21,28 +37,44 @@
                 display: inline-block;
             }
 
+            @media all and (max-width: 768px) {
+                .test {
+                    width: calc(50% - 2rem);
+                }
+            }
+
             @media all and (max-width: 500px) {
                 .test {
                     width: 100%;
+                    margin: 1rem 0;
                 }
             }
         </style>
     </head>
     <body>
-        <!-- TEST WITH EXTERNAL IMAGES -->
-        <div class="test">
-            <div>
-                <img alt="" src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" />
+        <div class="container">
+
+            <div class="test">
+                <img alt="" src="https://images4.alphacoders.com/285/285258.jpg" />
+                <div class="test__content">
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
             </div>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        </div>
-        <div class="test">
-            <img alt="" src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" />
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-        </div>
-        <div class="test">
-            <img alt="" src="http://www.planwallpaper.com/static/images/wallpapers-hd-8000-8331-hd-wallpapers.jpg" />
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+
+            <div class="test">
+                <img alt="" src="https://images4.alphacoders.com/285/285258.jpg" />
+                <div class="test__content">
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+            </div>
+
+            <div class="test">
+                <img alt="" src="https://images4.alphacoders.com/285/285258.jpg" />
+                <div class="test__content">
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                </div>
+            </div>
+
         </div>
 
         <script src="./heightify.example.js" charset="utf-8"></script>

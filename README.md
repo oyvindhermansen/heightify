@@ -14,17 +14,16 @@ $ npm install
 ```javascript
 import heightify from 'heightify'
 
-/**
-* Sets all divs to the same height as the tallest div on the page.
-* Uses imagesLoaded because 'hasImages' is set to true.
-* Will stop working when screen width is under 500px.
-*/
-
 heightify({
-  element: 'div',
-  hasImages: true,
+  element: document.querySelectorAll('div'),
+  hasImages: true, // uses imagesLoaded
   destroyOnSize: 500
 })
+
+/**
+* This also works great with jQuery selectors.
+**/
+
 ```
 
 ## Options
@@ -32,21 +31,19 @@ heightify({
 The only required key for heightify is `element`.
 The rest is optional.
 
-Option | Type | Default
---------- | ------- | ----------
-hasImages | Boolean | false
-destroyOnSize | Int | null
+* hasImages
+* destroyOnSize
+
+### Example on how it works with cards
+![alt tag](examples/example.png)
 
 ### Development
 `$ npm run dev`
-This will run build on both heightify and examples.
+This will run on both src/ and examples/
 
 ### Build:
 For production:
 `$ npm run build`
-
-When testing the examples, run:
-`$ npm run examples`
 
 ### Tests
 * `$ npm test`

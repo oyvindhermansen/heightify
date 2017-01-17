@@ -1,20 +1,23 @@
 {
   "name": "heightify",
-  "version": "4.0.3",
+  "version": "5.0.0",
   "description": "A module for setting the same height on given elements",
-  "main": "./lib/heightify.js",
+  "main": "./lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
+    "lint": "eslint src/",
+    "lint:watch": "esw --color --watch src/",
     "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive --require test/testhelper.js test/**/*.test.js",
     "test:watch": "npm test -- --watch",
     "examples": "browserify examples/index.js -o examples/heightify.example.js",
-    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
-    "prepublish": "npm run clean && npm run test && npm run build",
-    "dev": "npm run build && npm run examples"
+    "build": "NODE_ENV=production cross-env BABEL_ENV=commonjs babili src --out-dir lib",
+    "prepublish": "npm run clean && npm run test && npm run lint && npm run build",
+    "dev": "cross-env BABEL_ENV=commonjs babel src --out-dir lib && npm run examples"
   },
   "pre-commit": [
     "build",
-    "test"
+    "test",
+    "lint"
   ],
   "files": [
     "lib",
@@ -45,16 +48,25 @@
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.10.1",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-2": "^6.11.0",
     "babel-register": "^6.9.0",
+    "babili": "0.0.9",
     "chai": "^3.5.0",
     "cross-env": "^3.1.3",
+    "eslint": "^3.13.1",
+    "eslint-plugin-babel": "^4.0.0",
+    "eslint-watch": "^2.1.14",
+    "flow-bin": "^0.37.4",
     "istanbul": "^1.0.0-alpha",
     "jsdom": "^9.4.2",
     "mocha": "^3.0.0",
     "pre-commit": "^1.2.2",
-    "rimraf": "^2.5.2"
+    "rimraf": "^2.5.2",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0"
   },
   "dependencies": {
     "imagesloaded": "^4.1.0"
