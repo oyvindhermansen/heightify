@@ -1,5 +1,7 @@
 /**
-* TODO: This needs documentation
+* @param {number} size - This is the size of
+* the screen width.
+* @return {boolean}
 **/
 
 function destroyOnSize(size) {

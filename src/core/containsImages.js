@@ -40,7 +40,7 @@ function containsImages(element, callback) {
     }
 
     /**
-    * Checking if the images inside your specified elements
+    * Checking if the images inside your specified element
     * is done loading. If they are, return the callback
     */
     if (instance.isComplete) {
@@ -50,6 +50,13 @@ function containsImages(element, callback) {
         }
       }
     }
+  }).on('progress', (instance, image) => {
+    /**
+    * TODO: Want to add a function as a second parameter
+    * to heightify that will work as a loader. This will
+    * make it easy for users to add loaders to images
+    **/
+    return
   })
 }
 
