@@ -95,7 +95,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
-var heightify = require('../lib/index').default
+var heightify = require('../lib/core/heightify').default
 
 heightify({
   element: document.querySelectorAll('.test'),
@@ -103,7 +103,7 @@ heightify({
   destroyOnSize: 500
 })
 
-},{"../lib/index":7}],3:[function(require,module,exports){
+},{"../lib/core/heightify":5}],3:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -132,7 +132,7 @@ function containsImages(element, callback) {
     /**
     * Checking if the instance actually contains any images.
     * If not, run console.warn
-    */
+    **/
     if (env !== 'production') {
       if (instance.images.length === 0) {
         console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
@@ -142,7 +142,7 @@ function containsImages(element, callback) {
     /**
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
-    */
+    **/
     if (env !== 'production') {
       if (instance.hasAnyBroken) {
         console.warn('It looks like one or several images ' + 'in your element is broken.');
@@ -152,7 +152,7 @@ function containsImages(element, callback) {
     /**
     * Checking if the images inside your specified element
     * is done loading. If they are, return the callback
-    */
+    **/
     if (instance.isComplete) {
       if (callback) {
         if (typeof callback === 'function') {
@@ -160,19 +160,12 @@ function containsImages(element, callback) {
         }
       }
     }
-  }).on('progress', function (instance, image) {
-    /**
-    * TODO: Want to add a function as a second parameter
-    * to heightify that will work as a loader. This will
-    * make it easy for users to add loaders to images
-    **/
-    return;
   });
 }
 
 exports.default = containsImages;
 }).call(this,require('_process'))
-},{"_process":1,"imagesloaded":9}],4:[function(require,module,exports){
+},{"_process":1,"imagesloaded":8}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -229,7 +222,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 * running heightify.
 * This function loops the current specified DOM elements.
 * @returns {array} mapped elements with clientHeight
-*/
+**/
 
 function getClientHeight(elements) {
   return elements.map(function (index, item) {
@@ -242,7 +235,7 @@ function getClientHeight(elements) {
 * @param {number} tallestNum
 * @return the mapped item of elements with the tallestNum
 * as inline height.
-*/
+**/
 
 function applyHeightsToElements(elements, tallestNum) {
   return elements.map(function (item, index) {
@@ -258,7 +251,7 @@ function applyHeightsToElements(elements, tallestNum) {
 * This function returns and render the heights
 * on each element, and at the same time, checks
 * wether a destroyOnSize is specified.
-*/
+**/
 
 function render(size, elements, tallestElement) {
   if (!(0, _destroyOnSize2.default)(size)) {
@@ -273,7 +266,7 @@ function render(size, elements, tallestElement) {
 * @param {object} opts - Specify which element you would
 * like to set equally heights on with the key: `element`.
 * @return {object} opts - The object with the options specified.
-*/
+**/
 
 function heightify(opts) {
   var element = opts.element,
@@ -306,7 +299,7 @@ function heightify(opts) {
         /**
         * redefine constant definition to recalculate
         * the correct heights with images inside.
-        */
+        **/
         var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(getClientHeight(elementsToArray));
 
         return render(opts.destroyOnSize, newStateOfElements, calculatedTallestElementWithImage);
@@ -358,30 +351,6 @@ function isObject(obj) {
   return false;
 }
 },{}],7:[function(require,module,exports){
-(function (process){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _heightify = require('./core/heightify');
-
-var _heightify2 = _interopRequireDefault(_heightify);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var env = process.env.NODE_ENV;
-
-function noop() {}
-
-if (env !== 'production' && noop.name !== 'noop') {
-  console.warn('You are currently running minified ' + 'heightify outside NODE_ENV=\'production\'.');
-}
-
-exports.default = _heightify2.default;
-}).call(this,require('_process'))
-},{"./core/heightify":5,"_process":1}],8:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter
@@ -492,7 +461,7 @@ return EvEmitter;
 
 }));
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*!
  * imagesLoaded v4.1.1
  * JavaScript is all like "You images are done yet or what?"
@@ -864,4 +833,4 @@ return ImagesLoaded;
 
 });
 
-},{"ev-emitter":8}]},{},[2]);
+},{"ev-emitter":7}]},{},[2]);

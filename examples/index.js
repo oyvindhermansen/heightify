@@ -1,4 +1,4 @@
-var heightify = require('../lib/index').default
+var heightify = require('../lib/core/heightify').default
 
 heightify({
   element: document.querySelectorAll('.test'),
