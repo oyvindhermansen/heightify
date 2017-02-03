@@ -1,5 +1,5 @@
 import imagesLoaded from 'imagesloaded'
-const __DEV__ = typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
+import { devMode } from '../helpers/helpers'
 
 /**
 * @param {any} element
@@ -15,7 +15,7 @@ export default function containsImages(element, callback) {
     * Checking if the instance actually contains any images.
     * If not, run console.warn
     **/
-    if (__DEV__) {
+    if (devMode()) {
       if (!instance.images.length) {
         console.warn(
           `It seems like you are setting the images option ` +
@@ -30,7 +30,7 @@ export default function containsImages(element, callback) {
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
     **/
-    if (__DEV__) {
+    if (devMode()) {
       if (instance.hasAnyBroken) {
         console.warn(
           `It looks like one or several images ` +

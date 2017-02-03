@@ -190,7 +190,6 @@ heightify({
 })
 
 },{"../lib/core/heightify":5}],3:[function(require,module,exports){
-(function (process){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -202,10 +201,9 @@ var _imagesloaded = require('imagesloaded');
 
 var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _helpers = require('../helpers/helpers');
 
-var env = process.env.NODE_ENV;
-var __DEV__ = typeof process !== 'undefined' && process.env.NODE_ENV !== 'production';
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
 * @param {any} element
@@ -221,7 +219,7 @@ function containsImages(element, callback) {
     * Checking if the instance actually contains any images.
     * If not, run console.warn
     **/
-    if (__DEV__) {
+    if ((0, _helpers.devMode)()) {
       if (!instance.images.length) {
         console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
       }
@@ -231,7 +229,7 @@ function containsImages(element, callback) {
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
     **/
-    if (__DEV__) {
+    if ((0, _helpers.devMode)()) {
       if (instance.hasAnyBroken) {
         console.warn('It looks like one or several images ' + 'in your element is broken.');
       }
@@ -250,13 +248,15 @@ function containsImages(element, callback) {
     }
   });
 }
-}).call(this,require('_process'))
-},{"_process":1,"imagesloaded":8}],4:[function(require,module,exports){
+},{"../helpers/helpers":6,"imagesloaded":8}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 exports.default = destroyOnSize;
 
 var _helpers = require('../helpers/helpers');
@@ -268,7 +268,14 @@ var _helpers = require('../helpers/helpers');
 **/
 
 function destroyOnSize(size) {
+  var windowType = typeof window === 'undefined' ? 'undefined' : _typeof(window);
   var windowWidth = window.innerWidth;
+
+  if (windowType === 'undefined') {
+    if ((0, _helpers.devMode)()) {
+      console.warn('Window is undefined. Make sure you are in ' + 'a browser environment when using heightify ' + 'with the \'destroyOnSize\' option.');
+    }
+  }
 
   if (!size) {
     return false;
@@ -399,6 +406,7 @@ function heightify(opts) {
 
 exports.default = heightify;
 },{"../helpers/helpers":6,"./containsImages":3,"./destroyOnSize":4}],6:[function(require,module,exports){
+(function (process){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -410,6 +418,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.findHeighestInArray = findHeighestInArray;
 exports.isObject = isObject;
 exports.isNumber = isNumber;
+exports.devMode = devMode;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -440,7 +449,12 @@ function isObject(obj) {
 function isNumber(input) {
   return typeof input === 'number';
 }
-},{}],7:[function(require,module,exports){
+
+function devMode() {
+  return typeof process !== 'undefined' && process.env.NODE_ENV !== 'production';
+}
+}).call(this,require('_process'))
+},{"_process":1}],7:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter

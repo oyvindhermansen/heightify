@@ -1,4 +1,4 @@
-import { isNumber } from '../helpers/helpers'
+import { isNumber, devMode } from '../helpers/helpers'
 
 /**
 * @param {number} size - This is the size of
@@ -7,7 +7,18 @@ import { isNumber } from '../helpers/helpers'
 **/
 
 export default function destroyOnSize(size) {
+  const windowType = typeof window
   const windowWidth = window.innerWidth
+
+  if (windowType === 'undefined') {
+    if (devMode()) {
+      console.warn(
+        `Window is undefined. Make sure you are in ` +
+        `a browser environment when using heightify ` +
+        `with the 'destroyOnSize' option.`
+      )
+    }
+  }
 
   if (!size) {
     return false
