@@ -14,9 +14,14 @@ export function findHeighestInArray(arr) {
 */
 
 export function isObject(obj) {
-  var objType = typeof obj
-  if (!Array.isArray(obj) && objType === 'object' ) {
-    return true
-  }
-  return false
+  const objType = typeof obj
+  return !Array.isArray(obj) && objType === 'object'
+}
+
+/**
+* @param {input} any
+* @returns {Boolean}
+*/
+export function isNumber(input) {
+  return typeof input === 'number'
 }
