@@ -64,7 +64,7 @@ function heightify(opts) {
     destroyOnSize,
   } = opts
 
-  const elementsToArray = [...element]
+  const elementsToArray = Array.from(element)
   const tallestElement = findHeighestInArray(getClientHeight(elementsToArray))
   const newStateOfElements = elementsToArray
 
