@@ -6,6 +6,7 @@
 
 function destroyOnSize(size) {
   const windowWidth = window.innerWidth
+
   if (size) {
     if (typeof size !== 'number') {
       throw new Error(

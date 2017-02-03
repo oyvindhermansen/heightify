@@ -16,7 +16,7 @@ function containsImages(element, callback) {
     * If not, run console.warn
     **/
     if (env !== 'production') {
-      if (instance.images.length === 0) {
+      if (!instance.images.length) {
         console.warn(
           `It seems like you are setting the images option ` +
           `to true, when imagesLoaded cannot find any images. ` +
