@@ -22,6 +22,20 @@ export function isObject(obj) {
 * @param {input} any
 * @returns {Boolean}
 */
+
 export function isNumber(input) {
   return typeof input === 'number'
+}
+
+/**
+* @param {void}
+* @returns {Boolean}
+* This checks if the code is running production
+* or development environment. If this returns false
+* it will eliminate dead code such as warnings.
+*/
+
+export function devMode() {
+  return typeof process !== 'undefined'
+  && process.env.NODE_ENV !== 'production'
 }
