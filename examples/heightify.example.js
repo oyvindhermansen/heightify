@@ -196,6 +196,7 @@ heightify({
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = containsImages;
 
 var _imagesloaded = require('imagesloaded');
 
@@ -204,6 +205,7 @@ var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var env = process.env.NODE_ENV;
+var __DEV__ = typeof process !== 'undefined' && process.env.NODE_ENV !== 'production';
 
 /**
 * @param {any} element
@@ -219,8 +221,8 @@ function containsImages(element, callback) {
     * Checking if the instance actually contains any images.
     * If not, run console.warn
     **/
-    if (env !== 'production') {
-      if (instance.images.length === 0) {
+    if (__DEV__) {
+      if (!instance.images.length) {
         console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
       }
     }
@@ -229,7 +231,7 @@ function containsImages(element, callback) {
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
     **/
-    if (env !== 'production') {
+    if (__DEV__) {
       if (instance.hasAnyBroken) {
         console.warn('It looks like one or several images ' + 'in your element is broken.');
       }
@@ -248,8 +250,6 @@ function containsImages(element, callback) {
     }
   });
 }
-
-exports.default = containsImages;
 }).call(this,require('_process'))
 },{"_process":1,"imagesloaded":8}],4:[function(require,module,exports){
 'use strict';
@@ -257,6 +257,10 @@ exports.default = containsImages;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = destroyOnSize;
+
+var _helpers = require('../helpers/helpers');
+
 /**
 * @param {number} size - This is the size of
 * the screen width.
@@ -265,22 +269,18 @@ Object.defineProperty(exports, "__esModule", {
 
 function destroyOnSize(size) {
   var windowWidth = window.innerWidth;
-  if (size) {
-    if (typeof size !== 'number') {
-      throw new Error('Expecting "size" to be an integer.');
-    }
-    if (windowWidth > size) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
+
+  if (!size) {
     return false;
   }
-}
 
-exports.default = destroyOnSize;
-},{}],5:[function(require,module,exports){
+  if (!(0, _helpers.isNumber)(size)) {
+    throw new Error('Expected the value of destroyOnSize ' + 'to be an integer.');
+  }
+
+  return size > windowWidth;
+}
+},{"../helpers/helpers":6}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -409,6 +409,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.findHeighestInArray = findHeighestInArray;
 exports.isObject = isObject;
+exports.isNumber = isNumber;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -429,10 +430,15 @@ function findHeighestInArray(arr) {
 
 function isObject(obj) {
   var objType = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
-  if (!Array.isArray(obj) && objType === 'object') {
-    return true;
-  }
-  return false;
+  return !Array.isArray(obj) && objType === 'object';
+}
+
+/**
+* @param {input} any
+* @returns {Boolean}
+*/
+function isNumber(input) {
+  return typeof input === 'number';
 }
 },{}],7:[function(require,module,exports){
 /**
