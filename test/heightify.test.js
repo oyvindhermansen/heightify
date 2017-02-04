@@ -2,7 +2,7 @@ import chai, { expect, assert } from 'chai'
 import heightify from '../src/core/heightify'
 import destroyOnSize from '../src/core/destroyOnSize'
 import containsImages from '../src/core/containsImages'
-import { findHeighestInArray, isObject } from '../src/helpers/helpers'
+import { findHeighestInArray, isObject, isNumber } from '../src/helpers/helpers'
 
 
 describe('Heightify', () => {
@@ -56,6 +56,14 @@ describe('Heightify', () => {
     })
   })
 
+  describe('API', () => {
+    describe('destroyOnSize', () => {
+      it('destroyOnSize should return false if input is not given', () => {
+        expect(destroyOnSize()).to.equal(false)
+      })
+    })
+  })
+
   describe('Helpers', () => {
     describe('findHeighestInArray', () => {
       it('should return the highest integer inside array', () => {
@@ -72,6 +80,15 @@ describe('Heightify', () => {
       it('should throw if not a plain object', () => {
         const notPlainObject = [{ key: 'value' }]
         expect(isObject(notPlainObject)).to.equal(false)
+      })
+    })
+    describe('isNumber', () => {
+      it('should return true if input type is number', () => {
+        expect(isNumber(500)).to.equal(true)
+      })
+
+      it('should return false if input type is not a number', () => {
+        expect(isNumber('wrongString')).to.equal(false)
       })
     })
   })

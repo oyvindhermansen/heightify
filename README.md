@@ -14,15 +14,17 @@ $ npm install
 ```javascript
 import heightify from 'heightify'
 
+// vanilla JS selector
 heightify({
   element: document.querySelectorAll('div'),
   hasImages: true, // uses imagesLoaded
   destroyOnSize: 500
 })
 
-/**
-* This also works great with jQuery selectors.
-**/
+// With jQuery selector
+heightify({
+  element: $('div'),
+})
 
 ```
 
@@ -50,4 +52,5 @@ For production:
 * `$ npm run test:watch`
 
 ### Contribute
-If you want to contribute, just clone the repo and make a pull request or file an issue:)
+If you want to contribute, feel free to make a pull request or file an issue:)
+Feature requests are also welcome!

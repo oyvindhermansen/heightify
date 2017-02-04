@@ -1,25 +1,35 @@
+import { isNumber, devMode } from '../helpers/helpers'
+
 /**
 * @param {number} size - This is the size of
 * the screen width.
 * @return {boolean}
 **/
 
-function destroyOnSize(size) {
+export default function destroyOnSize(size) {
+  const windowType = typeof window
   const windowWidth = window.innerWidth
-  if (size) {
-    if (typeof size !== 'number') {
-      throw new Error(
-        `Expecting "size" to be an integer.`
+
+  if (windowType === 'undefined') {
+    if (devMode()) {
+      console.warn(
+        `Window is undefined. Make sure you are in ` +
+        `a browser environment when using heightify ` +
+        `with the "destroyOnSize" option.`
       )
     }
-    if (windowWidth > size) {
-      return false
-    } else {
-      return true
-    }
-  } else {
+  }
+
+  if (!size) {
     return false
   }
-}
 
-export default destroyOnSize
+  if (!isNumber(size)) {
+    throw new Error(
+      `Expected the value of destroyOnSize ` +
+      `to be an integer.`
+    )
+  }
+
+  return size > windowWidth
+}

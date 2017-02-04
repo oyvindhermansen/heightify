@@ -1,7 +1,93 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // shim for using process in browser
-
 var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
 var queue = [];
 var draining = false;
 var currentQueue;
@@ -26,7 +112,7 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = setTimeout(cleanUpNextTick);
+    var timeout = runTimeout(cleanUpNextTick);
     draining = true;
 
     var len = queue.length;
@@ -43,7 +129,7 @@ function drainQueue() {
     }
     currentQueue = null;
     draining = false;
-    clearTimeout(timeout);
+    runClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
@@ -55,7 +141,7 @@ process.nextTick = function (fun) {
     }
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
+        runTimeout(drainQueue);
     }
 };
 
@@ -104,20 +190,20 @@ heightify({
 })
 
 },{"../lib/core/heightify":5}],3:[function(require,module,exports){
-(function (process){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = containsImages;
 
 var _imagesloaded = require('imagesloaded');
 
 var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _helpers = require('../helpers/helpers');
 
-var env = process.env.NODE_ENV;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
 * @param {any} element
@@ -133,8 +219,8 @@ function containsImages(element, callback) {
     * Checking if the instance actually contains any images.
     * If not, run console.warn
     **/
-    if (env !== 'production') {
-      if (instance.images.length === 0) {
+    if ((0, _helpers.devMode)()) {
+      if (!instance.images.length) {
         console.warn('It seems like you are setting the images option ' + 'to true, when imagesLoaded cannot find any images. ' + 'Consider turning off the \'hasImages\' option or ' + 'make sure your images are loading correctly.');
       }
     }
@@ -143,7 +229,7 @@ function containsImages(element, callback) {
     * Checking if the images inside your specified elements
     * is broken. If one or some are, run console.warn
     **/
-    if (env !== 'production') {
+    if ((0, _helpers.devMode)()) {
       if (instance.hasAnyBroken) {
         console.warn('It looks like one or several images ' + 'in your element is broken.');
       }
@@ -162,39 +248,7 @@ function containsImages(element, callback) {
     }
   });
 }
-
-exports.default = containsImages;
-}).call(this,require('_process'))
-},{"_process":1,"imagesloaded":8}],4:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
-* @param {number} size - This is the size of
-* the screen width.
-* @return {boolean}
-**/
-
-function destroyOnSize(size) {
-  var windowWidth = window.innerWidth;
-  if (size) {
-    if (typeof size !== 'number') {
-      throw new Error('Expecting "size" to be an integer.');
-    }
-    if (windowWidth > size) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
-    return false;
-  }
-}
-
-exports.default = destroyOnSize;
-},{}],5:[function(require,module,exports){
+},{"../helpers/helpers":6,"imagesloaded":8}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -202,6 +256,44 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.default = destroyOnSize;
+
+var _helpers = require('../helpers/helpers');
+
+/**
+* @param {number} size - This is the size of
+* the screen width.
+* @return {boolean}
+**/
+
+function destroyOnSize(size) {
+  var windowType = typeof window === 'undefined' ? 'undefined' : _typeof(window);
+  var windowWidth = window.innerWidth;
+
+  if (windowType === 'undefined') {
+    if ((0, _helpers.devMode)()) {
+      console.warn('Window is undefined. Make sure you are in ' + 'a browser environment when using heightify ' + 'with the "destroyOnSize" option.');
+    }
+  }
+
+  if (!size) {
+    return false;
+  }
+
+  if (!(0, _helpers.isNumber)(size)) {
+    throw new Error('Expected the value of destroyOnSize ' + 'to be an integer.');
+  }
+
+  return size > windowWidth;
+}
+},{"../helpers/helpers":6}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = heightify;
 
 var _helpers = require('../helpers/helpers');
 
@@ -214,8 +306,6 @@ var _destroyOnSize = require('./destroyOnSize');
 var _destroyOnSize2 = _interopRequireDefault(_destroyOnSize);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 /**
 * @param {any} elements The elements you specify when
@@ -274,16 +364,19 @@ function heightify(opts) {
       destroyOnSize = opts.destroyOnSize;
 
 
-  var elementsToArray = [].concat(_toConsumableArray(element));
-  var tallestElement = (0, _helpers.findHeighestInArray)(getClientHeight(elementsToArray));
-  var newStateOfElements = elementsToArray;
+  var arrayOfElements = Array.from(element);
+  var tallestElement = (0, _helpers.findHeighestInArray)(getClientHeight(arrayOfElements));
 
-  if (!newStateOfElements.length) {
+  Object.freeze(arrayOfElements);
+
+  console.log(Object.isFrozen(arrayOfElements));
+
+  if (!arrayOfElements.length) {
     throw new Error('You are trying to set equal heights ' + 'to a DOM-node which does not exists. ' + 'Please check your code for possible ' + 'spelling error.');
   }
 
   if (!(0, _helpers.isObject)(opts)) {
-    throw new Error('Argument specified for heightify is ' + ('not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. Please use an object instead.'));
+    throw new Error('The expected argument type of ' + 'heightify is a plain object.');
   }
 
   if (!opts.hasOwnProperty('element')) {
@@ -300,21 +393,20 @@ function heightify(opts) {
         * redefine constant definition to recalculate
         * the correct heights with images inside.
         **/
-        var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(getClientHeight(elementsToArray));
+        var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(getClientHeight(arrayOfElements));
 
-        return render(opts.destroyOnSize, newStateOfElements, calculatedTallestElementWithImage);
+        return render(destroyOnSize, arrayOfElements, calculatedTallestElementWithImage);
       });
     }
   } else {
     // No images found. Run this the normal way.
-    return render(destroyOnSize, newStateOfElements, tallestElement);
+    return render(destroyOnSize, arrayOfElements, tallestElement);
   }
 
   return opts;
 }
-
-exports.default = heightify;
 },{"../helpers/helpers":6,"./containsImages":3,"./destroyOnSize":4}],6:[function(require,module,exports){
+(function (process){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -325,6 +417,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.findHeighestInArray = findHeighestInArray;
 exports.isObject = isObject;
+exports.isNumber = isNumber;
+exports.devMode = devMode;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -345,12 +439,31 @@ function findHeighestInArray(arr) {
 
 function isObject(obj) {
   var objType = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
-  if (!Array.isArray(obj) && objType === 'object') {
-    return true;
-  }
-  return false;
+  return !Array.isArray(obj) && objType === 'object';
 }
-},{}],7:[function(require,module,exports){
+
+/**
+* @param {input} any
+* @returns {Boolean}
+*/
+
+function isNumber(input) {
+  return typeof input === 'number';
+}
+
+/**
+* @param {void}
+* @returns {Boolean}
+* This checks if the code is running production
+* or development environment. If this returns false
+* it will eliminate dead code such as warnings.
+*/
+
+function devMode() {
+  return typeof process !== 'undefined' && process.env.NODE_ENV !== 'production';
+}
+}).call(this,require('_process'))
+},{"_process":1}],7:[function(require,module,exports){
 /**
  * EvEmitter v1.0.3
  * Lil' event emitter
