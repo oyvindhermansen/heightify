@@ -15,7 +15,7 @@ export default function destroyOnSize(size) {
       console.warn(
         `Window is undefined. Make sure you are in ` +
         `a browser environment when using heightify ` +
-        `with the 'destroyOnSize' option.`
+        `with the "destroyOnSize" option.`
       )
     }
   }

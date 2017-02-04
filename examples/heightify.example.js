@@ -273,7 +273,7 @@ function destroyOnSize(size) {
 
   if (windowType === 'undefined') {
     if ((0, _helpers.devMode)()) {
-      console.warn('Window is undefined. Make sure you are in ' + 'a browser environment when using heightify ' + 'with the \'destroyOnSize\' option.');
+      console.warn('Window is undefined. Make sure you are in ' + 'a browser environment when using heightify ' + 'with the "destroyOnSize" option.');
     }
   }
 
@@ -293,8 +293,7 @@ function destroyOnSize(size) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+exports.default = heightify;
 
 var _helpers = require('../helpers/helpers');
 
@@ -365,16 +364,19 @@ function heightify(opts) {
       destroyOnSize = opts.destroyOnSize;
 
 
-  var elementsToArray = Array.from(element);
-  var tallestElement = (0, _helpers.findHeighestInArray)(getClientHeight(elementsToArray));
-  var newStateOfElements = elementsToArray;
+  var arrayOfElements = Array.from(element);
+  var tallestElement = (0, _helpers.findHeighestInArray)(getClientHeight(arrayOfElements));
 
-  if (!newStateOfElements.length) {
+  Object.freeze(arrayOfElements);
+
+  console.log(Object.isFrozen(arrayOfElements));
+
+  if (!arrayOfElements.length) {
     throw new Error('You are trying to set equal heights ' + 'to a DOM-node which does not exists. ' + 'Please check your code for possible ' + 'spelling error.');
   }
 
   if (!(0, _helpers.isObject)(opts)) {
-    throw new Error('Argument specified for heightify is ' + ('not a ' + (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) + '. Please use an object instead.'));
+    throw new Error('The expected argument type of ' + 'heightify is a plain object.');
   }
 
   if (!opts.hasOwnProperty('element')) {
@@ -391,20 +393,18 @@ function heightify(opts) {
         * redefine constant definition to recalculate
         * the correct heights with images inside.
         **/
-        var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(getClientHeight(elementsToArray));
+        var calculatedTallestElementWithImage = (0, _helpers.findHeighestInArray)(getClientHeight(arrayOfElements));
 
-        return render(opts.destroyOnSize, newStateOfElements, calculatedTallestElementWithImage);
+        return render(destroyOnSize, arrayOfElements, calculatedTallestElementWithImage);
       });
     }
   } else {
     // No images found. Run this the normal way.
-    return render(destroyOnSize, newStateOfElements, tallestElement);
+    return render(destroyOnSize, arrayOfElements, tallestElement);
   }
 
   return opts;
 }
-
-exports.default = heightify;
 },{"../helpers/helpers":6,"./containsImages":3,"./destroyOnSize":4}],6:[function(require,module,exports){
 (function (process){
 'use strict';
@@ -446,9 +446,18 @@ function isObject(obj) {
 * @param {input} any
 * @returns {Boolean}
 */
+
 function isNumber(input) {
   return typeof input === 'number';
 }
+
+/**
+* @param {void}
+* @returns {Boolean}
+* This checks if the code is running production
+* or development environment. If this returns false
+* it will eliminate dead code such as warnings.
+*/
 
 function devMode() {
   return typeof process !== 'undefined' && process.env.NODE_ENV !== 'production';

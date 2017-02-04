@@ -38,7 +38,7 @@ function applyHeightsToElements(elements, tallestNum) {
 * wether a destroyOnSize is specified.
 **/
 
-function render(size, elements, tallestElement ) {
+function render(size, elements, tallestElement) {
   if (!destroyOnSize(size)) {
     return applyHeightsToElements(
       elements,
@@ -56,7 +56,7 @@ function render(size, elements, tallestElement ) {
 * @return {object} opts - The object with the options specified.
 **/
 
-function heightify(opts) {
+export default function heightify(opts) {
 
   const {
     element,
@@ -64,11 +64,10 @@ function heightify(opts) {
     destroyOnSize,
   } = opts
 
-  const elementsToArray = Array.from(element)
-  const tallestElement = findHeighestInArray(getClientHeight(elementsToArray))
-  const newStateOfElements = elementsToArray
+  const arrayOfElements = Array.from(element)
+  const tallestElement = findHeighestInArray(getClientHeight(arrayOfElements))
 
-  if (!newStateOfElements.length) {
+  if (!arrayOfElements.length) {
     throw new Error(
       `You are trying to set equal heights ` +
       `to a DOM-node which does not exists. ` +
@@ -79,8 +78,8 @@ function heightify(opts) {
 
   if (!isObject(opts)) {
     throw new Error(
-      `Argument specified for heightify is ` +
-      `not a ${typeof opts}. Please use an object instead.`
+      `The expected argument type of ` +
+      `heightify is a plain object.`
     )
   }
 
@@ -106,12 +105,12 @@ function heightify(opts) {
           * the correct heights with images inside.
           **/
           const calculatedTallestElementWithImage = findHeighestInArray(
-            getClientHeight(elementsToArray)
+            getClientHeight(arrayOfElements)
           )
 
           return render(
-            opts.destroyOnSize,
-            newStateOfElements,
+            destroyOnSize,
+            arrayOfElements,
             calculatedTallestElementWithImage
           )
         }
@@ -121,13 +120,10 @@ function heightify(opts) {
     // No images found. Run this the normal way.
     return render(
       destroyOnSize,
-      newStateOfElements,
+      arrayOfElements,
       tallestElement
     )
   }
 
   return opts
 }
-
-
-export default heightify
